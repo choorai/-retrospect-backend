@@ -21,22 +21,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", length = 320, nullable = false)
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name = "password", length = 255, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "name", length = 5, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "department", length = 50, nullable = false)
+    @Column(name = "department")
     private String department;
 
-    @Column(name = "position", length = 50, nullable = false)
+    @Column(name = "position")
     private String position;
 
-    @Column(name = "company_name", length = 50, nullable = false)
+    @Column(name = "company_name")
     private String companyName;
 
     public User(String userId, String password, String name, String department, String position, String companyName) {
