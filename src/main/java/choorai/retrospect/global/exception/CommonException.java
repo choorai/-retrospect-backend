@@ -8,8 +8,10 @@ import lombok.Getter;
 @Getter
 public class CommonException extends RuntimeException {
 
-    private static final String PROPERTY_VALUE = "Key: %s, Value: %s";
-    private static final String VALUE_DELIMITER = " // ";
+    private static final String FORMAT_OF_EXCEPTION = "%s : %s";
+    private static final String PREFIX_OF_EXCEPTION = "{";
+    private static final String DELIMITER_OF_EXCEPTION = ", ";
+    private static final String SUFFIX_OF_EXCEPTION = "}";
 
     private final ErrorCode errorCode;
     private final Map<String, Object> additionalInfo;
@@ -27,8 +29,8 @@ public class CommonException extends RuntimeException {
     public String getInputValue() {
         return Objects.requireNonNull(additionalInfo).entrySet()
             .stream()
-            .map(entry -> String.format(PROPERTY_VALUE, entry.getKey(), entry.getValue().toString()))
-            .collect(Collectors.joining(VALUE_DELIMITER));
+            .map(entry -> String.format(FORMAT_OF_EXCEPTION, entry.getKey(), entry.getValue().toString()))
+            .collect(Collectors.joining(DELIMITER_OF_EXCEPTION, PREFIX_OF_EXCEPTION, SUFFIX_OF_EXCEPTION));
     }
 
     public String getCode() {

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 class CommonExceptionTest {
 
-    @DisplayName("Custom Exception의 정보를 Key, Value 형태로 반환한다. (구분자 = // )")
+    @DisplayName("Custom Exception의 정보를 JSON 형태로 반환한다.")
     @Test
     void getInputValueTest() {
         // given
@@ -17,10 +17,8 @@ class CommonExceptionTest {
         // when
         final String inputValue = commonException.getInputValue();
         // then
-        final String[] inputValues = inputValue.split(" // ");
-        assertThat(inputValues)
-            .hasSize(2)
-            .containsExactly("Key: 정보1, Value: 내용1", "Key: 정보2, Value: 내용2");
+        assertThat(inputValue)
+            .isEqualTo("{정보1 : 내용1, 정보2 : 내용2}");
     }
 
 }
