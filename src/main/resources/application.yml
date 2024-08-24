@@ -19,9 +19,7 @@ spring:
     url: jdbc:mysql://localhost:3308/retrospect
     user: root
     password: mysql
-
-
-logging:
+    
   level:
     org:
       hibernate:
