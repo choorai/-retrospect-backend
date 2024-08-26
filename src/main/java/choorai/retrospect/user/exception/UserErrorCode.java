@@ -1,4 +1,4 @@
-package choorai.retrospect.user.entity.exception;
+package choorai.retrospect.user.exception;
 
 import choorai.retrospect.global.exception.ErrorCode;
 import choorai.retrospect.user.entity.value.Email;

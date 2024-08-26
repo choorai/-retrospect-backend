@@ -3,8 +3,8 @@ package choorai.retrospect.user.entity.value;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import choorai.retrospect.user.entity.exception.UserErrorCode;
-import choorai.retrospect.user.entity.exception.UserException;
+import choorai.retrospect.user.exception.UserErrorCode;
+import choorai.retrospect.user.exception.UserException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

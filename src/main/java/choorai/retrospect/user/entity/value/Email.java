@@ -1,7 +1,7 @@
 package choorai.retrospect.user.entity.value;
 
-import choorai.retrospect.user.entity.exception.UserErrorCode;
-import choorai.retrospect.user.entity.exception.UserException;
+import choorai.retrospect.user.exception.UserErrorCode;
+import choorai.retrospect.user.exception.UserException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
