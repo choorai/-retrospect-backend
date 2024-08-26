@@ -63,3 +63,11 @@ asciidoctor {
 	configurations 'asciidoctorExt'
 	dependsOn test
 }
+
+processResources.dependsOn('copySecret')
+
+tasks.register('copySecret', Copy) {
+	from 'config'
+	include 'application*.yml'
+	into 'src/main/resources'
+}
