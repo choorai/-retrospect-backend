@@ -49,4 +49,17 @@ public class Email {
             throw new UserException(UserErrorCode.EMAIL_FORM_ERROR);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Email email = (Email) o;
+        return value.equals(email.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }
