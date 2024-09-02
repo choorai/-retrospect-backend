@@ -1,5 +1,8 @@
 package choorai.retrospect.auth.entity.dto;
 
+import lombok.Getter;
+
+@Getter
 public class LoginResponse {
 
     private String accessToken;

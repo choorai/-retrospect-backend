@@ -7,9 +7,10 @@ import choorai.retrospect.auth.exception.AuthException;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.auth.entity.dto.LoginRequest;
 import choorai.retrospect.auth.entity.dto.LoginResponse;
-import choorai.retrospect.auth.entity.dto.RefreshTokenResponse;
+import choorai.retrospect.auth.entity.dto.ReissueTokenResponse;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.entity.value.Email;
+import jakarta.transaction.Transactional;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class AuthService {
     private final JwtService jwtService;
 
 
+    @Transactional
     public LoginResponse login(LoginRequest request) {
         final User findUser = getUser(request);
         if (!findUser.getPassword().isEqual(request.getPassword())) {
@@ -36,7 +38,8 @@ public class AuthService {
         return new LoginResponse(accessToken, refreshToken);
     }
 
-    public RefreshTokenResponse refreshAccessToken(String refreshTokenValue) {
+    @Transactional
+    public ReissueTokenResponse reissueAccessToken(String refreshTokenValue) {
         if (!jwtService.validateToken(refreshTokenValue)) {
             throw new AuthException(AuthErrorCode.INVALID_REFRESH_TOKEN);
         }
@@ -49,9 +52,10 @@ public class AuthService {
 
         final String userEmail = jwtService.extractUserEmail(refreshTokenValue);
         final String newAccessToken = jwtService.generateAccessToken(userEmail);
-        return new RefreshTokenResponse(newAccessToken);
+        return new ReissueTokenResponse(newAccessToken);
     }
 
+    @Transactional
     public void logout(String refreshTokenValue) {
         refreshTokenRepository.deleteByToken(refreshTokenValue);
     }
