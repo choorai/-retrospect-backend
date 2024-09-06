@@ -37,4 +37,8 @@ public class Password {
         }
     }
 
+    public boolean isEqual(String value) {
+        return this.value.equals(value);
+    }
+
 }
