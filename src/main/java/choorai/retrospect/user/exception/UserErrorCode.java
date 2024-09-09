@@ -8,12 +8,12 @@ import org.springframework.http.HttpStatus;
 
 public enum UserErrorCode implements ErrorCode {
 
-    EMAIL_LENGTH_ERROR(HttpStatus.BAD_REQUEST, "잘못된 입력",
+    EMAIL_FORM_ERROR(HttpStatus.BAD_REQUEST, "1001", "이메일 형식이 아닙니다."),
+    EMAIL_LENGTH_ERROR(HttpStatus.BAD_REQUEST, "1002",
                        String.format("이메일은 %d ~ %d 바이트 사이여야합니다.", Email.MIN_LENGTH, Email.MAX_LENGTH)),
-    EMAIL_FORM_ERROR(HttpStatus.BAD_REQUEST, "잘못된 입력", "이메일 형식이 아닙니다."),
-    PASSWORD_LENGTH_ERROR(HttpStatus.BAD_REQUEST, "잘못된 입력",
+    PASSWORD_LENGTH_ERROR(HttpStatus.BAD_REQUEST, "1003",
                       String.format("비밀번호는 %d ~ %d 바이트 사이여야 합니다.", Password.MIN_LENGTH, Password.MAX_LENGTH)),
-    NAME_LENGTH_ERROR(HttpStatus.BAD_REQUEST, "잘못된 입력",
+    NAME_LENGTH_ERROR(HttpStatus.BAD_REQUEST, "1004",
                       String.format("이름은 %d ~ %d 바이트 사이여야 합니다.", Name.MIN_LENGTH, Name.MAX_LENGTH));
 
     private final HttpStatus httpStatus;
