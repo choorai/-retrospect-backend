@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 
 public enum TestError implements ErrorCode {
 
-    TEST_ERROR_CODE(HttpStatus.BAD_REQUEST, "잘못된 입력", "잘못된 에러 입력");
+    TEST_ERROR_CODE(HttpStatus.BAD_REQUEST, 1000, "잘못된 에러 입력");
 
     private final HttpStatus httpStatus;
-    private final String errorCode;
+    private final int errorCode;
     private final String errorMessage;
 
-    TestError(final HttpStatus httpStatus, final String errorCode, final String errorMessage) {
+    TestError(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
@@ -22,7 +22,7 @@ public enum TestError implements ErrorCode {
     }
 
     @Override
-    public String getCode() {
+    public int getCode() {
         return errorCode;
     }
 

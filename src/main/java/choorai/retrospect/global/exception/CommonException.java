@@ -33,7 +33,7 @@ public class CommonException extends RuntimeException {
             .collect(Collectors.joining(DELIMITER_OF_EXCEPTION, PREFIX_OF_EXCEPTION, SUFFIX_OF_EXCEPTION));
     }
 
-    public String getCode() {
+    public int getCode() {
         return errorCode.getCode();
     }
 
