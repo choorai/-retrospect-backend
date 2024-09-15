@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Email {
 
     public static final int MIN_LENGTH = 4;
-    public static final int MAX_LENGTH = 255;
+    public static final int MAX_LENGTH = 32;
     private static final Pattern EMAIL_PATTERN
             = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
@@ -37,8 +37,7 @@ public class Email {
     }
 
     private void validateByteLength(String inputValue) {
-        final int inputValueByteLength = inputValue.getBytes(StandardCharsets.UTF_8).length;
-        if (inputValueByteLength < MIN_LENGTH || inputValueByteLength > MAX_LENGTH) {
+        if (inputValue.length() < MIN_LENGTH || inputValue.length() > MAX_LENGTH) {
             throw new UserException(UserErrorCode.EMAIL_LENGTH_ERROR);
         }
     }
