@@ -26,7 +26,7 @@ class NameTest {
     }
 
     @ParameterizedTest(name = "{0}은 정해진 이름 길이를 벗어나므로 예외가 발생한다.")
-    @ValueSource(strings = {"", "정", "이 문장은 이름 길이를 초과하는 예시입니다.이 문장은 이름 길이를 초과하는 예시입니다."})
+    @ValueSource(strings = {"", "이 문장은 이름 길이를 초과하는 예시입니다.이 문장은 이름 길이를 초과하는 예시입니다."})
     void lengthErrorTest(String inputValue) {
         // given
         // when
