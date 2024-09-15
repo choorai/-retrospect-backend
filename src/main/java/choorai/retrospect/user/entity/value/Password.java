@@ -31,8 +31,7 @@ public class Password {
     }
 
     private void validateByteLength(String inputValue) {
-        final int inputValueByteLength = inputValue.getBytes(StandardCharsets.UTF_8).length;
-        if (inputValueByteLength < MIN_LENGTH || inputValueByteLength > MAX_LENGTH) {
+        if (inputValue.length()< MIN_LENGTH || inputValue.length() > MAX_LENGTH) {
             throw new UserException(UserErrorCode.PASSWORD_LENGTH_ERROR);
         }
     }
