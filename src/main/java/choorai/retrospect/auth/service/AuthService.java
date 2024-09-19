@@ -29,7 +29,7 @@ public class AuthService {
     @Transactional
     public LoginResponse login(LoginRequest request) {
         final User findUser = getUser(request);
-        if (!findUser.getPassword().isEqual(request.getPassword())) {
+        if (!findUser.getPassword().equals(request.getPassword())) {
             throw new AuthException(AuthErrorCode.WRONG_PASSWORD);
         }
         final String accessToken = jwtService.generateAccessToken(request.getEmail());
