@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,6 +26,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfiguration {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     @Bean
     @Order(1)
@@ -51,6 +53,7 @@ public class SecurityConfiguration {
                 auth.requestMatchers(antMatcher("/auth/**")).permitAll();
                 auth.anyRequest().authenticated();
             })
+            .authenticationProvider(authenticationProvider)
             .build();
     }
 
