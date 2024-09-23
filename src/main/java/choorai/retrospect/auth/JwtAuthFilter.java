@@ -40,18 +40,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
 
-        String requestURI = request.getRequestURI();
+        final String requestURI = request.getRequestURI();
         if (requestURI.startsWith("/auth/")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String authHeader = request.getHeader(AUTHORIZATION);
-        if (authHeader == null || !authHeader.startsWith(TOKEN_PREFIX)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
+        final String authHeader = request.getHeader(AUTHORIZATION);
         final String token = authHeader.substring(TOKEN_PREFIX.length());
         final String userEmail = jwtService.extractUserEmail(token);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
