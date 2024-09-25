@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Name {
 
-    public static final int MIN_LENGTH = 6;
-    public static final int MAX_LENGTH = 100;
+    public static final int MIN_LENGTH = 1;
+    public static final int MAX_LENGTH = 20;
 
     @Column(name = "name")
     private String value;
@@ -31,8 +31,7 @@ public class Name {
     }
 
     private void validateByteLength(String inputValue) {
-        final int inputValueByteLength = inputValue.getBytes(StandardCharsets.UTF_8).length;
-        if (inputValueByteLength < MIN_LENGTH || inputValueByteLength> MAX_LENGTH) {
+        if (inputValue.isEmpty() || inputValue.length()> MAX_LENGTH) {
             throw new UserException(UserErrorCode.NAME_LENGTH_ERROR);
         }
     }
