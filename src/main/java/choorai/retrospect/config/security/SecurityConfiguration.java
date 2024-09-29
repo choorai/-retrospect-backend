@@ -59,9 +59,9 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // TODO : 배포후 연동 시 변경
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -69,3 +69,4 @@ public class SecurityConfiguration {
         return source;
     }
 }
+
