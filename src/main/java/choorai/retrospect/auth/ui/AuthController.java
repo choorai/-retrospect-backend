@@ -6,8 +6,8 @@ import choorai.retrospect.auth.entity.dto.LogoutRequest;
 import choorai.retrospect.auth.entity.dto.ReissueTokenRequest;
 import choorai.retrospect.auth.entity.dto.ReissueTokenResponse;
 import choorai.retrospect.auth.service.AuthService;
+import choorai.retrospect.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,26 +21,23 @@ public class AuthController {
     private final AuthService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody final LoginRequest request) {
+    public BaseResponseDto<LoginResponse> login(@RequestBody final LoginRequest request) {
         final LoginResponse loginResponse = userService.login(request);
-        return ResponseEntity.ok()
-            .body(loginResponse);
+        return BaseResponseDto.ofSuccess(loginResponse);
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ReissueTokenResponse> reissue(@RequestBody final ReissueTokenRequest request) {
+    public BaseResponseDto<ReissueTokenResponse> reissue(@RequestBody final ReissueTokenRequest request) {
         String refreshToken = request.getRefreshToken();
         final ReissueTokenResponse reissueTokenResponse = userService.reissueAccessToken(refreshToken);
-        return ResponseEntity.ok()
-            .body(reissueTokenResponse);
+        return BaseResponseDto.ofSuccess(reissueTokenResponse);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody final LogoutRequest request) {
+    public BaseResponseDto<String> logout(@RequestBody final LogoutRequest request) {
         final String refreshToken = request.getRefreshToken();
         userService.logout(refreshToken);
-        return ResponseEntity.ok()
-            .body("LOGOUT SUCCESS");
+        return BaseResponseDto.ofSuccess();
     }
 
 }
