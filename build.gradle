@@ -70,6 +70,14 @@ asciidoctor {
 	dependsOn test
 }
 
+bootJar {
+	dependsOn asciidoctor
+	copy {
+		from asciidoctor.outputDir
+		into 'src/main/resources/static/docs'
+	}
+}
+
 processResources.dependsOn('copySecret')
 
 tasks.register('copySecret', Copy) {
