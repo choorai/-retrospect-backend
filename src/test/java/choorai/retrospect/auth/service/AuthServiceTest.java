@@ -29,9 +29,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
+
+    /*
+        뭐 어떻게 바꿔야하나? SpringBootTest만 붙이고 -> service는 다 @Autowired로?
+        그럼 Repository 들은 어짜나 얘넨 목으로 냅두나?
+        jwtService에서 임시로 토큰 만드는 부분 있잖아 (-> authService에서 생성되는거)
+        -> 그건 테스트 어떻게 하나?
+     */
+
+
+    @Autowired
+    AuthService authService;
 
     @Mock
     UserRepository userRepository;
@@ -39,11 +53,8 @@ class AuthServiceTest {
     @Mock
     RefreshTokenRepository refreshTokenRepository;
 
-    @Mock
-    JwtService jwtService;
 
-    @InjectMocks
-    AuthService authService;
+    JwtService jwtService;
 
     private User user;
     private RefreshToken refreshToken;
