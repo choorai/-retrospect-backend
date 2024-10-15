@@ -19,6 +19,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "\"user\"")
 public class User extends BaseEntity implements UserDetails {
 
     @Id
