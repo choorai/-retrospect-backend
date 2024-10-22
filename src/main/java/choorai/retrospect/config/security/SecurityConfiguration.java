@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -43,7 +45,9 @@ public class SecurityConfiguration {
             .csrf(AbstractHttpConfigurer::disable)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)  // JWT 필터 추가
             .formLogin(AbstractHttpConfigurer::disable)
+            .cors(config -> config.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> {
+                auth.requestMatchers(antMatcher("/**")).permitAll();
                 auth.requestMatchers(antMatcher("/auth/**")).permitAll();
                 auth.anyRequest().authenticated();
             })
@@ -51,19 +55,18 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    @Order(3)
-    public SecurityFilterChain corsFilterChain(HttpSecurity http) throws Exception {
-        return http
-            .cors(corsConfig -> {
-                corsConfig.configurationSource(request -> {
-                    CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "PATCH", "DELETE"));
-                    // TODO : 배포후 연동 시 변경
-                    configuration.addAllowedOrigin("*");
-                    configuration.addAllowedHeader("*");
-                    return configuration;
-                });
-            })
-            .build();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // TODO : 배포후 연동 시 변경
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
+
