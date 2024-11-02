@@ -23,7 +23,7 @@ class UserTest {
                 .isEqualTo(emailInput),
             () -> assertThat(user.getName().getValue())
                 .isEqualTo(nameInput),
-            () -> assertThat(user.getPassword().getValue())
+            () -> assertThat(user.getPassword())
                 .isEqualTo(passwordInput)
         );
     }
@@ -46,7 +46,7 @@ class UserTest {
                 .isEqualTo(emailInput),
             () -> assertThat(user.getName().getValue())
                 .isEqualTo(nameInput),
-            () -> assertThat(user.getPassword().getValue())
+            () -> assertThat(user.getPassword())
                 .isEqualTo(passwordInput),
             () -> assertThat(user.getCompanyName())
                 .isEqualTo(companyInput),

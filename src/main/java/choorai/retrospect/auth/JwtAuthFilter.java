@@ -15,58 +15,49 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor
 @Component
 @Slf4j
-@Order(Ordered.HIGHEST_PRECEDENCE)
-public class JwtAuthFilter implements Filter {
+public class JwtAuthFilter extends OncePerRequestFilter {
+
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String TOKEN_PREFIX = "Bearer ";
+
 
     private final JwtService jwtService;
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
-    }
+    private final UserDetailsService userDetailsService;
 
     @Override
-    public void destroy() {
-        Filter.super.destroy();
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
-        String requestURI = httpRequest.getRequestURI();
-        if (requestURI.startsWith("/auth/")) {
-            filterChain.doFilter(servletRequest, servletResponse);
+        final String authHeader = request.getHeader(AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith(TOKEN_PREFIX)) {
+            filterChain.doFilter(request, response);
             return;
         }
 
-        String authHeader = httpRequest.getHeader("Authorization");
+        final String token = authHeader.substring(TOKEN_PREFIX.length());
+        final String userEmail = jwtService.extractUserEmail(token);
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            try {
-                if (jwtService.validateToken(token)) {
-                    String userEmail = jwtService.extractUserEmail(token);
-                    httpRequest.setAttribute("userEmail", userEmail);
-                } else {
-                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 유효하지 않습니다.");
-                    return;
-                }
-            } catch (JwtException e) {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT 검증 작업 중 예외가 발생했습니다.");
-                return;
+            if (jwtService.isTokenValid(token, userDetails)) {
+                final UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-        } else {
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "인증을 위한 헤더가 존재하지 않습니다.");
-            return;
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+
+        filterChain.doFilter(request, response);
     }
 }
