@@ -7,26 +7,26 @@
 
 
 == 로그인
-=== 요청
+=== Request
 include::{snippets}/auth-login/request-fields.adoc[]
 include::{snippets}/auth-login/http-request.adoc[]
-=== 응답
+=== Response
 include::{snippets}/auth-login/response-fields.adoc[]
 include::{snippets}/auth-login/http-response.adoc[]
 
 == 로그아웃
-=== 요청
+=== Request
 include::{snippets}/auth-logout/request-fields.adoc[]
 include::{snippets}/auth-logout/http-request.adoc[]
-=== 응답
+=== Response
 include::{snippets}/auth-logout/response-fields.adoc[]
 include::{snippets}/auth-logout/http-response.adoc[]
 
 == refreshToken을 활용한 accessToken 재발급
-=== 요청
+=== Request
 include::{snippets}/auth-refresh/request-fields.adoc[]
 include::{snippets}/auth-refresh/http-request.adoc[]
 
-=== 응답
+=== Response
 include::{snippets}/auth-refresh/response-fields.adoc[]
 include::{snippets}/auth-refresh/http-response.adoc[]
