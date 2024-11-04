@@ -64,9 +64,9 @@ class AuthControllerTest {
     @Test
     void loginTest() throws Exception {
         // given
-        final LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("user@naver.com");
-        loginRequest.setPassword("afdsa123");
+        String email  = "user@naver.com";
+        String password = "afdsa123";
+        final LoginRequest loginRequest = new LoginRequest(email, password);
 
         final LoginResponse loginResponse = new LoginResponse("eyJhbGciOiJIUz~~", "TkekZsO63m2UcwJ6egbT~~");
 
@@ -95,8 +95,8 @@ class AuthControllerTest {
     @Test
     void reissueTest() throws Exception {
         // given
-        final ReissueTokenRequest reissueTokenRequest = new ReissueTokenRequest();
-        reissueTokenRequest.setRefreshToken("TkekZsO63m2UcwJ6egbT~~");
+        String refreshToken = "TkekZsO63m2UcwJ6egbT~~";
+        final ReissueTokenRequest reissueTokenRequest = new ReissueTokenRequest(refreshToken);
 
         final ReissueTokenResponse reissueTokenResponse = new ReissueTokenResponse("eyJhbGciOiJIUz~~");
 
@@ -124,8 +124,8 @@ class AuthControllerTest {
     @Test
     void logoutTest() throws Exception {
         // given
-        final LogoutRequest logoutRequest = new LogoutRequest();
-        logoutRequest.setRefreshToken("TkekZsO63m2UcwJ6egbT~~");
+        String refreshToken = "TkekZsO63m2UcwJ6egbT~~";
+        final LogoutRequest logoutRequest = new LogoutRequest(refreshToken);
 
         // when
         final ResultActions result = this.mockMvc.perform(post("/auth/logout")
