@@ -1,4 +1,4 @@
-package choorai.retrospect.auth.ui;
+package choorai.retrospect.auth.docs;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
