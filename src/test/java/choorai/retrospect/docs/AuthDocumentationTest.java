@@ -1,4 +1,4 @@
-package choorai.retrospect.auth.docs;
+package choorai.retrospect.docs;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -42,7 +42,7 @@ import org.springframework.web.context.WebApplicationContext;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-class AuthControllerTest {
+class AuthDocumentationTest {
 
     @Autowired
     private MockMvc mockMvc;
