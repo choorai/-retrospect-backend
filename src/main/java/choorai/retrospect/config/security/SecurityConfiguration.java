@@ -49,6 +49,7 @@ public class SecurityConfiguration {
             .formLogin(AbstractHttpConfigurer::disable)
             .cors(config -> config.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> {
+                auth.requestMatchers(antMatcher("/**")).permitAll();
                 auth.requestMatchers(antMatcher("/auth/**")).permitAll();
                 auth.anyRequest().authenticated();
             })
@@ -71,4 +72,3 @@ public class SecurityConfiguration {
         return source;
     }
 }
-
