@@ -62,11 +62,13 @@ public class CardService {
 
     @Transactional
     public CardResponse updateCard(Long id, CardRequest request) {
-        validateCardRequest(request);
-
         Card card = getCardById(id);
-        card.setType(request.getType());
-        card.setContent(request.getContent());
+        if (request.getType() != null && !request.getType().isEmpty()) {
+            card.setType(request.getType());
+        }
+        if (request.getContent() != null && !request.getContent().isEmpty()) {
+            card.setContent(request.getContent());
+        }
         cardRepository.save(card);
 
         return CardResponse.of(card);

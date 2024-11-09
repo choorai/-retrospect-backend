@@ -53,13 +53,14 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Card> cards = new ArrayList<>();
 
-    public User(String email, String password, String name, String companyName, String department, String position) {
+    public User(String email, String password, String name, String companyName, String department, String position, Role role) {
         this.email = new Email(email);
         this.password = new Password(password);
         this.name = new Name(name);
         this.companyName = companyName;
         this.department = department;
         this.position = position;
+        this.role = role;
     }
 
     public User(String email, String password, String name) {
