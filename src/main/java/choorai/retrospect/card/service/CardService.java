@@ -2,13 +2,16 @@ package choorai.retrospect.card.service;
 
 import choorai.retrospect.card.entity.Card;
 import choorai.retrospect.card.entity.dto.CardRequest;
+import choorai.retrospect.card.entity.dto.CardResponse;
 import choorai.retrospect.card.entity.repository.CardRepository;
 import choorai.retrospect.card.exception.CardErrorCode;
 import choorai.retrospect.card.exception.CardException;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
+import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.service.UserService;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,38 +26,50 @@ public class CardService {
     private final UserService userService;
 
     @Transactional
-    public Card createCard(CardRequest cardRequest) {
+    public CardResponse createCard(CardRequest cardRequest) {
         validateCardRequest(cardRequest);
-        final User currentUser = userService.getCurrentUser();
-        // TODO : 교체
-        final RetrospectRoom retrospectRoom = retrospectRoomService.getRetrospectRoomBy(id);
+        final User currentUser = userService.getCurrentUserWithCards();
+        final RetrospectRoom retrospectRoom = retrospectRoomService.findById(cardRequest.getRetrospectRoomId());
 
         Card card = Card.forSave(cardRequest.getType(),
                                  cardRequest.getContent(),
                                  retrospectRoom,
                                  currentUser);
 
-        currentUser.addCard(card);
         retrospectRoom.addCard(card);
-        return cardRepository.save(card);
+        currentUser.addCard(card);
+        cardRepository.save(card);
+
+        return CardResponse.of(card);
     }
 
-    public Card getCardById(Long id) {
+    private Card getCardById(Long id) {
         return cardRepository.findById(id)
             .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND_FOR_ID));
     }
 
-    public List<Card> getAllCards() {
-        return cardRepository.findAll();
+    public CardResponse getCardResponseById(Long id) {
+        final Card card = getCardById(id);
+        return CardResponse.of(card);
+    }
+
+    public List<CardResponse> getAllCards() {
+        List<Card> cards = cardRepository.findAll();
+        return cards.stream()
+            .map(CardResponse::of)
+            .collect(Collectors.toList());
     }
 
     @Transactional
-    public Card updateCard(Long id, CardRequest request) {
+    public CardResponse updateCard(Long id, CardRequest request) {
         validateCardRequest(request);
+
         Card card = getCardById(id);
         card.setType(request.getType());
         card.setContent(request.getContent());
-        return cardRepository.save(card);
+        cardRepository.save(card);
+
+        return CardResponse.of(card);
     }
 
     @Transactional

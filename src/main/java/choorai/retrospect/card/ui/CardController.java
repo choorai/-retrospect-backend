@@ -1,7 +1,7 @@
 package choorai.retrospect.card.ui;
 
-import choorai.retrospect.card.entity.Card;
 import choorai.retrospect.card.entity.dto.CardRequest;
+import choorai.retrospect.card.entity.dto.CardResponse;
 import choorai.retrospect.card.service.CardService;
 import choorai.retrospect.global.response.BaseResponseDto;
 import java.util.List;
@@ -21,26 +21,26 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping("/create")
-    public BaseResponseDto<Card> createCard(@RequestBody final CardRequest request) {
-        Card card = cardService.createCard(request);
+    public BaseResponseDto<CardResponse> createCard(@RequestBody final CardRequest request) {
+        CardResponse card = cardService.createCard(request);
         return BaseResponseDto.ofSuccess(card);
     }
 
     @GetMapping("/{id}")
-    public BaseResponseDto<Card> getCardById(@PathVariable Long id) {
-        Card card = cardService.getCardById(id);
+    public BaseResponseDto<CardResponse> getCardById(@PathVariable Long id) {
+        CardResponse card = cardService.getCardResponseById(id);
         return BaseResponseDto.ofSuccess(card);
     }
 
-    @GetMapping
-    public BaseResponseDto<List<Card>> getAllCards() {
-        List<Card> cards = cardService.getAllCards();
+    @GetMapping("/all")
+    public BaseResponseDto<List<CardResponse>> getAllCards() {
+        List<CardResponse> cards = cardService.getAllCards();
         return BaseResponseDto.ofSuccess(cards);
     }
 
     @PostMapping("/update/{id}")
-    public BaseResponseDto<Card> updateCard(@PathVariable Long id, @RequestBody CardRequest request) {
-        Card updatedCard = cardService.updateCard(id, request);
+    public BaseResponseDto<CardResponse> updateCard(@PathVariable Long id, @RequestBody CardRequest request) {
+        CardResponse updatedCard = cardService.updateCard(id, request);
         return BaseResponseDto.ofSuccess(updatedCard);
     }
 
