@@ -37,7 +37,7 @@ public class AuthController {
     public BaseResponseDto<String> logout(@RequestBody final LogoutRequest request) {
         final String refreshToken = request.getRefreshToken();
         userService.logout(refreshToken);
-        return BaseResponseDto.ofSuccess();
+        return BaseResponseDto.ofSuccess("로그아웃 성공");
     }
 
 }
