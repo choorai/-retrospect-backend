@@ -2,6 +2,8 @@ package choorai.retrospect.retrospect_room.service;
 
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.retrospect_room.entity.repository.RetrospectRoomRepository;
+import choorai.retrospect.retrospect_room.excpetion.RetrospectRoomErrorCode;
+import choorai.retrospect.retrospect_room.excpetion.RetrospectRoomException;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +25,10 @@ public class RetrospectRoomService {
         retrospectRoomRepository.save(retrospectRoom);
 
         return new CreateResponse(shareLink);
+    }
+
+    public RetrospectRoom findById(long id) {
+        return retrospectRoomRepository.findWithCardsById(id)
+            .orElseThrow(() -> new RetrospectRoomException(RetrospectRoomErrorCode.RETROSPECT_ROOM_NOT_FOUND_FOR_ID));
     }
 }
