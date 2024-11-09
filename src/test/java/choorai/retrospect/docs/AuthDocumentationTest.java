@@ -31,7 +31,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -40,7 +39,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 class AuthDocumentationTest {
 
@@ -64,7 +62,7 @@ class AuthDocumentationTest {
     @Test
     void loginTest() throws Exception {
         // given
-        String email  = "user@naver.com";
+        String email = "user@naver.com";
         String password = "afdsa123";
         final LoginRequest loginRequest = new LoginRequest(email, password);
 
@@ -117,7 +115,8 @@ class AuthDocumentationTest {
                             ),
                             responseFields(
                                 fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
-                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("access token 값")
+                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING)
+                                    .description("access token 값")
                             )));
     }
 
