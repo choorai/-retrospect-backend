@@ -17,7 +17,7 @@ public enum CardErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    CardErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    CardErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

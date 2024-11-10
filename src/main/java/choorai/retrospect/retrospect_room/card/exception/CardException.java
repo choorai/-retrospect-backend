@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class CardException extends CommonException {
 
-    public CardException(ErrorCode errorCode) {
+    public CardException(final ErrorCode errorCode) {
         super(errorCode);
     }
 
-    public CardException(ErrorCode errorCode, Map<String, Object> additionalInfo) {
+    public CardException(final ErrorCode errorCode, final Map<String, Object> additionalInfo) {
         super(errorCode, additionalInfo);
     }
 }

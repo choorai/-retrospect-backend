@@ -19,7 +19,6 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,7 +42,8 @@ public class Card extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Card(Long id, Type type, String content, RetrospectRoom retrospectRoom, User user) {
+    private Card(final Long id, final Type type, final String content, final RetrospectRoom retrospectRoom,
+                 final User user) {
         this.id = id;
         this.type = type;
         this.content = content;
@@ -51,23 +51,25 @@ public class Card extends BaseEntity {
         this.user = user;
     }
 
-    public static Card forSave(String type, String content, RetrospectRoom retrospectRoom, User user) {
+    public static Card forSave(final String type, final String content, final RetrospectRoom retrospectRoom,
+                               final User user) {
         validateParameter(type, content, retrospectRoom, user);
         return new Card(null,
-                        Type.valueOf(type),
+                        Type.fromString(type),
                         content,
                         retrospectRoom,
                         user);
     }
 
-    private static void validateParameter(String type, String content, RetrospectRoom retrospectRoom, User user) {
+    private static void validateParameter(final String type, final String content, final RetrospectRoom retrospectRoom,
+                                          final User user) {
         validateType(type);
         validateContent(content);
         validateRetrospectRoom(retrospectRoom);
         validateUser(user);
     }
 
-    private static void validateType(String type) throws CardException {
+    private static void validateType(final String type) throws CardException {
         if (type == null || type.isEmpty()) {
             throw new CardException(CardErrorCode.TYPE_IS_NOT_NULL);
         }
@@ -76,25 +78,25 @@ public class Card extends BaseEntity {
         }
     }
 
-    private static void validateContent(String content) {
+    private static void validateContent(final String content) {
         if (content == null || content.isEmpty()) {
             throw new CardException(CardErrorCode.CONTENT_IS_NOT_NULL);
         }
     }
 
-    private static void validateRetrospectRoom(RetrospectRoom retrospectRoom) {
+    private static void validateRetrospectRoom(final RetrospectRoom retrospectRoom) {
         if (retrospectRoom == null) {
             throw new CardException(CardErrorCode.RETROSPECT_ROOM_IS_NOT_NULL);
         }
     }
 
-    private static void validateUser(User user) {
+    private static void validateUser(final User user) {
         if (user == null) {
             throw new CardException(CardErrorCode.USER_IS_NOT_NULL);
         }
     }
 
-    public boolean isInRoom(Long retrospectRoomId) {
+    public boolean isInRoom(final Long retrospectRoomId) {
         return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
     }
 }

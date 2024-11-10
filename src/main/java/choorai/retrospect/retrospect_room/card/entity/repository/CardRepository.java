@@ -10,7 +10,7 @@ public class CardRepository {
     public interface RetrospectRoomRepository extends JpaRepository<RetrospectRoom, Long> {
 
         @EntityGraph(attributePaths = {"cards"})
-        Optional<RetrospectRoom> findWithCardsById(Long userId);
+        Optional<RetrospectRoom> findWithCardsById(final Long userId);
     }
 
 }

@@ -6,11 +6,11 @@ public enum Type {
 
     KEEP, PROBLEM, TRY;
 
-    public static Type fromString(String type) {
+    public static Type fromString(final String type) {
         return Type.valueOf(type.toUpperCase());
     }
 
-    public static boolean isValidType(String type) {
+    public static boolean isValidType(final String type) {
         return Arrays.stream(Type.values())
             .anyMatch(enumValue -> enumValue.name().equals(type.toUpperCase()));
     }
