@@ -1,4 +1,4 @@
-package choorai.retrospect.card.entity.value;
+package choorai.retrospect.retrospect_room.card.entity.value;
 
 import java.util.Arrays;
 

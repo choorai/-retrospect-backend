@@ -1,6 +1,6 @@
-package choorai.retrospect.card.service.dto;
+package choorai.retrospect.retrospect_room.card.service.dto;
 
-import choorai.retrospect.card.entity.Card;
+import choorai.retrospect.retrospect_room.card.entity.Card;
 import lombok.Getter;
 
 @Getter

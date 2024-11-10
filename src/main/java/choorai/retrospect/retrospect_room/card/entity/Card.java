@@ -1,6 +1,6 @@
-package choorai.retrospect.card.entity;
+package choorai.retrospect.retrospect_room.card.entity;
 
-import choorai.retrospect.card.entity.value.Type;
+import choorai.retrospect.retrospect_room.card.entity.value.Type;
 import choorai.retrospect.global.domain.BaseEntity;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.user.entity.User;
@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

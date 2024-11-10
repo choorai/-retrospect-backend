@@ -1,27 +1,24 @@
-package choorai.retrospect.card.service.dto;
+package choorai.retrospect.retrospect_room.card.service.dto;
 
-import choorai.retrospect.card.entity.value.Type;
-import choorai.retrospect.card.exception.CardErrorCode;
-import choorai.retrospect.card.exception.CardException;
+import choorai.retrospect.retrospect_room.card.entity.value.Type;
+import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
+import choorai.retrospect.retrospect_room.card.exception.CardException;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-public class CardRequest {
+public class CardCreateRequest {
 
     private String type;
     private String content;
 
-    public CardRequest(String type, String content) {
-        validate(type, content);
+    public CardCreateRequest(String type, String content) {
         this.type = type;
         this.content = content;
     }
 
-    private void validate(String type, String content) {
-        validateType(type);
-        validateContent(content);
+    public void validate() {
+        validateType(this.type);
+        validateContent(this.content);
     }
 
     private void validateType(String type) throws CardException {

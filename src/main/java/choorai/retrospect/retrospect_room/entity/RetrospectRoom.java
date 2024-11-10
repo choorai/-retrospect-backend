@@ -1,8 +1,8 @@
 package choorai.retrospect.retrospect_room.entity;
 
-import choorai.retrospect.card.entity.Card;
-import choorai.retrospect.card.exception.CardErrorCode;
-import choorai.retrospect.card.exception.CardException;
+import choorai.retrospect.retrospect_room.card.entity.Card;
+import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
+import choorai.retrospect.retrospect_room.card.exception.CardException;
 import choorai.retrospect.global.domain.BaseEntity;
 import choorai.retrospect.retrospect_room.entity.value.*;
 import jakarta.persistence.*;

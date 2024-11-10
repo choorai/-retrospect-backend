@@ -1,4 +1,4 @@
-package choorai.retrospect.card.exception;
+package choorai.retrospect.retrospect_room.card.exception;
 
 import choorai.retrospect.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,8 @@ public enum CardErrorCode implements ErrorCode {
     CONTENT_IS_NOT_NULL(HttpStatus.BAD_REQUEST, 4001, "content는 필수값 입니다."),
     TYPE_IS_NOT_NULL(HttpStatus.BAD_REQUEST, 4002, "type은 필수값 입니다."),
     CARD_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 4003, "동일한 id를 가진 card를 찾을 수 없습니다."),
-    INVALID_TYPE(HttpStatus.BAD_REQUEST, 4004, "type은 KEEP, PROBLEM, TRY 중 하나여야 합니다.");
+    INVALID_TYPE(HttpStatus.BAD_REQUEST, 4004, "type은 KEEP, PROBLEM, TRY 중 하나여야 합니다."),
+    CARD_IS_NOT_IN_ROOM(HttpStatus.BAD_REQUEST, 4005, "주어진 id의 카드는 해당 회고룸에 존재하지 않습니다.");
 
 
     private final HttpStatus httpStatus;
@@ -28,11 +29,11 @@ public enum CardErrorCode implements ErrorCode {
 
     @Override
     public int getCode() {
-        return this.getCode();
+        return errorCode;
     }
 
     @Override
     public String getMessage() {
-        return this.getMessage();
+        return errorMessage;
     }
 }

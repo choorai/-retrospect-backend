@@ -1,4 +1,4 @@
-package choorai.retrospect.card.exception;
+package choorai.retrospect.retrospect_room.card.exception;
 
 import choorai.retrospect.global.exception.CommonException;
 import choorai.retrospect.global.exception.ErrorCode;
