@@ -62,4 +62,8 @@ public class Card extends BaseEntity {
         this.type = Type.valueOf(type);
     }
 
+    public boolean isInRoom(Long retrospectRoomId) {
+        return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
+    }
+
 }
