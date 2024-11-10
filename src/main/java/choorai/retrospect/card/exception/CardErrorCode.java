@@ -7,8 +7,8 @@ public enum CardErrorCode implements ErrorCode {
 
     CONTENT_IS_NOT_NULL(HttpStatus.BAD_REQUEST, 4001, "content는 필수값 입니다."),
     TYPE_IS_NOT_NULL(HttpStatus.BAD_REQUEST, 4002, "type은 필수값 입니다."),
-    CARD_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 4003, "동일한 id를 가진 card를 찾을 수 없습니다.");
-
+    CARD_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 4003, "동일한 id를 가진 card를 찾을 수 없습니다."),
+    INVALID_TYPE(HttpStatus.BAD_REQUEST, 4004, "type은 KEEP, PROBLEM, TRY 중 하나여야 합니다.");
 
 
     private final HttpStatus httpStatus;

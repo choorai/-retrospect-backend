@@ -73,7 +73,7 @@ public class CardDocumentationTest {
     @Test
     void createTest() throws Exception {
         // given
-        final CardRequest cardRequest = CardRequest.ofCreate("KEEP", "K회고", 1);
+        final CardRequest cardRequest = new CardRequest("KEEP", "K회고");
         final CardResponse cardResponse = new CardResponse(1L, "KEEP", "K회고");
         given(cardService.createCard(any(CardRequest.class)))
             .willReturn(cardResponse);
@@ -176,7 +176,7 @@ public class CardDocumentationTest {
     void updateCardDocsTest() throws Exception {
         // given
         final long cardId = 1L;
-        final CardRequest cardRequest = CardRequest.ofUpdate("KEEP", "업데이트 내용");
+        final CardRequest cardRequest = new CardRequest("KEEP", "업데이트 내용");
         final CardResponse cardResponse = new CardResponse(cardId, "KEEP", "업데이트 내용");
 
         when(cardService.updateCard(any(Long.class), any(CardRequest.class))).thenReturn(cardResponse);

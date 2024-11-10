@@ -27,7 +27,6 @@ public class CardService {
 
     @Transactional
     public CardResponse createCard(CardRequest cardRequest) {
-        validateCardRequest(cardRequest);
         final User currentUser = userService.getCurrentUserWithCards();
         final RetrospectRoom retrospectRoom = retrospectRoomService.findById(cardRequest.getRetrospectRoomId());
 
@@ -84,12 +83,5 @@ public class CardService {
         cardRepository.delete(card);
     }
 
-    private void validateCardRequest(CardRequest request) {
-        if (request.getContent() == null || request.getContent().isEmpty()) {
-            throw new CardException(CardErrorCode.CONTENT_IS_NOT_NULL);
-        }
-        if (request.getType() == null || request.getType().isEmpty()) {
-            throw new CardException(CardErrorCode.TYPE_IS_NOT_NULL);
-        }
-    }
+
 }
