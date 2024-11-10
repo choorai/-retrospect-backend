@@ -6,7 +6,9 @@ import choorai.retrospect.card.service.CardService;
 import choorai.retrospect.global.response.BaseResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,13 +40,13 @@ public class CardController {
         return BaseResponseDto.ofSuccess(cards);
     }
 
-    @PostMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public BaseResponseDto<CardResponse> updateCard(@PathVariable Long id, @RequestBody CardRequest request) {
         CardResponse updatedCard = cardService.updateCard(id, request);
         return BaseResponseDto.ofSuccess(updatedCard);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public BaseResponseDto<String> deleteCard(@PathVariable Long id) {
         cardService.deleteCard(id);
         return BaseResponseDto.ofSuccess();

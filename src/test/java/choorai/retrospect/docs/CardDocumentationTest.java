@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -180,7 +182,7 @@ public class CardDocumentationTest {
         when(cardService.updateCard(any(Long.class), any(CardRequest.class))).thenReturn(cardResponse);
 
         // when
-        ResultActions result = mockMvc.perform(post("/cards/update/{id}", cardId)
+        ResultActions result = mockMvc.perform(patch("/cards/update/{id}", cardId)
                                                    .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
                                                    .contentType(MediaType.APPLICATION_JSON)
                                                    .content(objectMapper.writeValueAsString(cardRequest))
@@ -218,7 +220,7 @@ public class CardDocumentationTest {
         doNothing().when(cardService).deleteCard(cardId);
 
         // when
-        ResultActions result = mockMvc.perform(post("/cards/delete/{id}", cardId)
+        ResultActions result = mockMvc.perform(delete("/cards/delete/{id}", cardId)
                                                    .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
                                                    .accept(MediaType.APPLICATION_JSON));
 
