@@ -1,4 +1,4 @@
-package choorai.retrospect.card.entity.dto;
+package choorai.retrospect.card.service.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

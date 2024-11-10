@@ -1,7 +1,7 @@
 package choorai.retrospect.card.ui;
 
-import choorai.retrospect.card.entity.dto.CardRequest;
-import choorai.retrospect.card.entity.dto.CardResponse;
+import choorai.retrospect.card.service.dto.CardRequest;
+import choorai.retrospect.card.service.dto.CardResponse;
 import choorai.retrospect.card.service.CardService;
 import choorai.retrospect.global.response.BaseResponseDto;
 import java.util.List;

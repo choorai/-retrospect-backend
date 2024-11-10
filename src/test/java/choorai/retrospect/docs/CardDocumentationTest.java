@@ -18,9 +18,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import choorai.retrospect.card.entity.Card;
-import choorai.retrospect.card.entity.dto.CardRequest;
-import choorai.retrospect.card.entity.dto.CardResponse;
+import choorai.retrospect.card.service.dto.CardRequest;
+import choorai.retrospect.card.service.dto.CardResponse;
 import choorai.retrospect.card.service.CardService;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.support.MockUser;
@@ -72,8 +71,8 @@ public class CardDocumentationTest {
     @Test
     void createTest() throws Exception {
         // given
-        final CardRequest cardRequest = CardRequest.ofCreate("K", "K회고", 1);
-        final CardResponse cardResponse = new CardResponse(1L, "K", "K회고");
+        final CardRequest cardRequest = CardRequest.ofCreate("KEEP", "K회고", 1);
+        final CardResponse cardResponse = new CardResponse(1L, "KEEP", "K회고");
         given(cardService.createCard(any(CardRequest.class)))
             .willReturn(cardResponse);
 
@@ -110,7 +109,7 @@ public class CardDocumentationTest {
     void readTest() throws Exception {
         // given
         final long cardId = 1L;
-        final CardResponse cardResponse = new CardResponse(1L, "K", "K회고");
+        final CardResponse cardResponse = new CardResponse(1L, "KEEP", "K회고");
         given(cardService.getCardResponseById(any(Long.class)))
             .willReturn(cardResponse);
         // when
@@ -142,8 +141,8 @@ public class CardDocumentationTest {
     @Test
     void readAllTest() throws Exception {
         // given
-        final CardResponse cardResponse1 = new CardResponse(1L, "K", "K회고");
-        final CardResponse cardResponse2 = new CardResponse(2L, "K", "K회고2");
+        final CardResponse cardResponse1 = new CardResponse(1L, "KEEP", "K회고");
+        final CardResponse cardResponse2 = new CardResponse(2L, "KEEP", "K회고2");
         final List<CardResponse> cards = List.of(cardResponse1, cardResponse2);
 
         when(cardService.getAllCards())
@@ -175,8 +174,8 @@ public class CardDocumentationTest {
     void updateCardDocsTest() throws Exception {
         // given
         final long cardId = 1L;
-        final CardRequest cardRequest = CardRequest.ofUpdate("K", "업데이트 내용");
-        final CardResponse cardResponse = new CardResponse(cardId, "K", "업데이트 내용");
+        final CardRequest cardRequest = CardRequest.ofUpdate("KEEP", "업데이트 내용");
+        final CardResponse cardResponse = new CardResponse(cardId, "KEEP", "업데이트 내용");
 
         when(cardService.updateCard(any(Long.class), any(CardRequest.class))).thenReturn(cardResponse);
 

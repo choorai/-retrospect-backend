@@ -1,8 +1,8 @@
 package choorai.retrospect.card.service;
 
 import choorai.retrospect.card.entity.Card;
-import choorai.retrospect.card.entity.dto.CardRequest;
-import choorai.retrospect.card.entity.dto.CardResponse;
+import choorai.retrospect.card.service.dto.CardRequest;
+import choorai.retrospect.card.service.dto.CardResponse;
 import choorai.retrospect.card.entity.repository.CardRepository;
 import choorai.retrospect.card.exception.CardErrorCode;
 import choorai.retrospect.card.exception.CardException;
@@ -69,7 +69,6 @@ public class CardService {
         if (request.getContent() != null && !request.getContent().isEmpty()) {
             card.setContent(request.getContent());
         }
-        cardRepository.save(card);
 
         return CardResponse.of(card);
     }
