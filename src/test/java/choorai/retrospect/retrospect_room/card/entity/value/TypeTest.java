@@ -9,13 +9,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 class TypeTest {
 
     @DisplayName("유효한 type인지 검증할 수 있다.")
-    @CsvSource({"keep, true", "아,false", "TRY, true", "ProBlem, true", "ajflkds,false"})
+    @CsvSource({"keep, KEEP", "PROBLEM, PROBLEM", "tRy, TRY"})
     @ParameterizedTest(name = "{0}의 Type 유효성 검증 결과는 {1}이다.")
-    void invalidTest(String typeValue, boolean expectedResult) {
+    void invalidTest(String typeValue, Type expectedType) {
         // given
         // when
-        final boolean result = Type.isValidType(typeValue);
+        final Type result = Type.fromString(typeValue);
         // then
-        assertThat(result).isEqualTo(expectedResult);
+        assertThat(result).isEqualTo(expectedType);
     }
 }

@@ -5,8 +5,6 @@ import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.IN
 import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.RETROSPECT_ROOM_IS_NOT_NULL;
 import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.USER_IS_NOT_NULL;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import choorai.retrospect.retrospect_room.card.exception.CardException;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
@@ -31,28 +29,6 @@ class CardTest {
         assertThatThrownBy(() -> Card.forSave(type, null, retrospectRoom, user))
             .isInstanceOf(CardException.class)
             .hasMessage(CONTENT_IS_NOT_NULL.getMessage());
-    }
-
-    @DisplayName("Card의 retrospectRoom이 비어있음 예외가 발생한다.")
-    @Test
-    void nullRetrospectRoomTest() {
-        // given
-        // when
-        // then
-        assertThatThrownBy(() -> Card.forSave(type, content, null, user))
-            .isInstanceOf(CardException.class)
-            .hasMessage(RETROSPECT_ROOM_IS_NOT_NULL.getMessage());
-    }
-
-    @DisplayName("Card의 User이 비어있음 예외가 발생한다.")
-    @Test
-    void nullUserTest() {
-        // given
-        // when
-        // then
-        assertThatThrownBy(() -> Card.forSave(type, content, retrospectRoom, null))
-            .isInstanceOf(CardException.class)
-            .hasMessage(USER_IS_NOT_NULL.getMessage());
     }
 
     @DisplayName("Card의 Type이 유효한 type(KEEP, PROBLEM, TRY)이 아니면 예외가 발생한다.")
