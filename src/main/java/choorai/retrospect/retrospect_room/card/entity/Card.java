@@ -96,7 +96,4 @@ public class Card extends BaseEntity {
         }
     }
 
-    public boolean isInRoom(final Long retrospectRoomId) {
-        return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
-    }
 }
