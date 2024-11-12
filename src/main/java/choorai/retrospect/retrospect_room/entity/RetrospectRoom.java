@@ -57,12 +57,12 @@ public class RetrospectRoom extends BaseEntity {
             new ShareLink(shareLink));
     }
 
-    public void addCard(Card card) {
+    public void addCard(final Card card) {
         this.cards.add(card);
     }
 
-    public void removeCardById(Long cardId) {
-        boolean removed = cards.removeIf(card -> card.getId().equals(cardId));
+    public void removeCardById(final Long cardId) {
+        boolean removed = this.cards.removeIf(card -> card.getId().equals(cardId));
         if (!removed) {
             throw new CardException(CardErrorCode.CARD_NOT_FOUND_FOR_ID);
         }
