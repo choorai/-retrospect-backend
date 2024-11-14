@@ -3,6 +3,7 @@ package choorai.retrospect.user.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import choorai.retrospect.user.entity.value.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,8 @@ class UserTest {
         final String departmentInput = "부서이름";
         final String positionInput = "직급이름";
         // when
-        final User user = new User(emailInput, passwordInput, nameInput, companyInput, departmentInput, positionInput);
+        final User user = new User(emailInput, passwordInput, nameInput, companyInput, departmentInput, positionInput,
+                                   Role.USER);
         // then
         assertAll(
             () -> assertThat(user.getEmail().getValue())
