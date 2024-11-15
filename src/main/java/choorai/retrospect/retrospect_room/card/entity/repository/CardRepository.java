@@ -1,12 +1,8 @@
 package choorai.retrospect.retrospect_room.card.entity.repository;
 
-import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
+import choorai.retrospect.retrospect_room.card.entity.Card;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class CardRepository {
-
-    public interface RetrospectRoomRepository extends JpaRepository<RetrospectRoom, Long> {
-
-    }
+public interface CardRepository extends JpaRepository<Card, Long> {
 
 }
