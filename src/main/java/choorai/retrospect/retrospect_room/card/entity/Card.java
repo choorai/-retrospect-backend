@@ -60,4 +60,8 @@ public class Card extends BaseEntity {
                         user);
     }
 
+    public String getContent() {
+        return this.content.getValue();
+    }
+
 }
