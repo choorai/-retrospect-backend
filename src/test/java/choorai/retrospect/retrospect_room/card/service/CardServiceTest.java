@@ -11,7 +11,6 @@ import choorai.retrospect.support.MockUser;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.service.UserService;
-import java.lang.reflect.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +39,8 @@ class CardServiceTest {
     @BeforeEach
     void setUp() throws NoSuchFieldException, IllegalAccessException {
         // user 세팅
-        Long userId = 1L;
-        final User currentUser = userService.getCurrentUser();
-        final Field id = currentUser.getClass().getDeclaredField("id");
-        id.setAccessible(true);
-        id.set(currentUser, userId);
-        final User save = userRepository.save(currentUser);
+        User currentUser = userService.getCurrentUser();;
+        currentUser = userRepository.save(currentUser);
 
         // RetrospectRoom 세팅
         testRetrospectRoom = RetrospectRoom.forSave("회고주제", "회고 상새 내용", "KPT",
