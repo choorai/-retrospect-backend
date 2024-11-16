@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -65,5 +66,19 @@ public class Card extends BaseEntity {
     public String getContent() {
         return this.content.getValue();
     }
+
+    public boolean isInRoom(Long retrospectRoomId) {
+        return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
+    }
+
+    public void update(String typeValue, String content) {
+        if (typeValue != null) {
+            this.type = Type.fromString(typeValue);
+        }
+        if (content != null) {
+            this.content = new Content(content);
+        }
+    }
+
 
 }

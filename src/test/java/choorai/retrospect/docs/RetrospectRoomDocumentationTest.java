@@ -1,12 +1,8 @@
 package choorai.retrospect.docs;
 
-import choorai.retrospect.retrospect_room.card.service.CardService;
-import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
-import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
-import choorai.retrospect.support.MockUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,10 +43,10 @@ public class RetrospectRoomDocumentationTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CardService cardService;
+    private RetrospectRoomService retrospectRoomService;
 
     @MockBean
-    private RetrospectRoomService retrospectRoomService;
+    private CardService cardService;
 
     @DisplayName("회고룸 생성 api 문서 테스트")
     @WithMockUser
@@ -129,6 +124,51 @@ public class RetrospectRoomDocumentationTest {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("생성된 Card id"),
                                 fieldWithPath("data.type").type(JsonFieldType.STRING).description("생성된 Card의 타입"),
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("생성된 Card의 내용")
+                            )
+            ));
+    }
+
+    @Test
+    @DisplayName("updateCard 문서화 테스트")
+    void updateCardDocsTest() throws Exception {
+        // given
+        final Long cardId = 1L;
+        final Long retrospectRoomId = 1L;
+        final CardUpdateRequest cardRequest = new CardUpdateRequest("KEEP", "업데이트 내용");
+        final CardResponse cardResponse = new CardResponse(cardId, "KEEP", "업데이트 내용");
+
+        when(cardService.updateCard(any(Long.class), any(Long.class), any(CardUpdateRequest.class)))
+            .thenReturn(cardResponse);
+
+        // when
+        ResultActions result = mockMvc.perform(
+            patch("/retrospect-room/{retrospectRoomId}/cards/{cardId}", retrospectRoomId, cardId)
+                .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cardRequest))
+                .accept(MediaType.APPLICATION_JSON));
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-update",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("수정할 카드가 속한 retrospect room의 id"),
+                                parameterWithName("cardId").description("수정할 카드의 ID")
+                            ),
+                            requestFields(
+                                fieldWithPath("type").type(JsonFieldType.STRING)
+                                    .description("수정할 카드의 타입(KEEP, PROBLEM, TRY)"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 카드 내용")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("수정된 카드의 ID"),
+                                fieldWithPath("data.type").type(JsonFieldType.STRING).description("수정된 카드의 타입"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("수정된 카드의 내용")
                             )
             ));
     }
