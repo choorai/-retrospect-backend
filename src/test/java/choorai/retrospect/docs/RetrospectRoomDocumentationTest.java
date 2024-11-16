@@ -21,11 +21,31 @@ import choorai.retrospect.retrospect_room.card.service.CardService;
 import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
 import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
 import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
+import static choorai.retrospect.support.ApiDocumentUtils.getDocumentRequest;
+import static choorai.retrospect.support.ApiDocumentUtils.getDocumentResponse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import choorai.retrospect.retrospect_room.card.service.CardService;
+import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
 import choorai.retrospect.support.MockUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +60,17 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import static choorai.retrospect.support.ApiDocumentUtils.getDocumentRequest;
+import static choorai.retrospect.support.ApiDocumentUtils.getDocumentResponse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -94,6 +125,77 @@ public class RetrospectRoomDocumentationTest {
                             responseFields(
                                 fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
                                 fieldWithPath("data.shareLink").type(JsonFieldType.STRING).description("회고 공유 링크")
+                            )
+            ));
+    }
+
+    @DisplayName("Card 조회 테스트")
+    @Test
+    void readTest() throws Exception {
+        // given
+        final Long retrospectRoomId = 1L;
+        final Long cardId = 1L;
+        final CardResponse cardResponse = new CardResponse(1L, "KEEP", "KEEP회고");
+        given(cardService.getCardResponseById(any(Long.class), any(Long.class)))
+            .willReturn(cardResponse);
+        // when
+        final ResultActions result = this.mockMvc.perform(
+            get("/retrospect-room/{retrospectRoomId}/cards/{cardId}", retrospectRoomId, cardId)
+                .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                .contentType(MediaType.APPLICATION_JSON));
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-get-by-id",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("조회할 카드가 속한 retrospect room의 id"),
+                                parameterWithName("cardId").description("조회할 카드의 ID")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("조회한 Card id"),
+                                fieldWithPath("data.type").type(JsonFieldType.STRING).description("조회한 Card의 타입"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("조회한 Card의 내용")
+                            )
+            ));
+    }
+
+    @DisplayName("Card 전체 조회 테스트")
+    @Test
+    void readAllTest() throws Exception {
+        // given
+        final Long retrospectRoomId = 1L;
+        final CardResponse cardResponse1 = new CardResponse(1L, "KEEP", "K회고");
+        final CardResponse cardResponse2 = new CardResponse(2L, "KEEP", "K회고2");
+        final List<CardResponse> cards = List.of(cardResponse1, cardResponse2);
+
+        when(cardService.getAllCards(any(Long.class)))
+            .thenReturn(cards);
+        // when
+        ResultActions result = mockMvc.perform(get("/retrospect-room/{retrospectRoomId}/cards", retrospectRoomId)
+                                                   .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                                                   .accept(MediaType.APPLICATION_JSON));
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-get-all",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("조회할 카드가 속한 retrospect room의 id")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("카드 목록"),
+                                fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("카드의 ID"),
+                                fieldWithPath("data[].type").type(JsonFieldType.STRING).description("카드의 타입"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING).description("카드의 내용")
                             )
             ));
     }
