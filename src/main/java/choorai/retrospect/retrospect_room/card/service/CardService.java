@@ -70,4 +70,18 @@ public class CardService {
     }
 
 
+    @Transactional
+    public void deleteCard(final Long retrospectRoomId, final Long cardId) {
+        final Card card = getCardById(cardId);
+        validateCardInRoom(retrospectRoomId, card);
+
+        final User user = card.getUser();
+        user.removeCardById(card.getId());
+        final RetrospectRoom retrospectRoom = card.getRetrospectRoom();
+        retrospectRoom.removeCardById(card.getId());
+
+        cardRepository.delete(card);
+    }
+
+
 }
