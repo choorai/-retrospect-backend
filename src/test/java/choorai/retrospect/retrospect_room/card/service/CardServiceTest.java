@@ -52,9 +52,9 @@ class CardServiceTest {
     @Autowired
     RetrospectRoomRepository retrospectRoomRepository;
 
-    public RetrospectRoom retrospectRoom;
-    public User user;
-    public Card card;
+    private RetrospectRoom retrospectRoom;
+    private User user;
+    private Card card;
 
     @BeforeEach
     void set() {
