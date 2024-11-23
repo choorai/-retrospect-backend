@@ -28,9 +28,6 @@ public class CardService {
         final RetrospectRoom retrospectRoom = retrospectRoomService.findById(retrospectRoomId);
 
         final Card card = Card.forSave(cardRequest.getType(), cardRequest.getContent(), retrospectRoom, currentUser);
-
-        retrospectRoom.addCard(card);
-        currentUser.addCard(card);
         cardRepository.save(card);
 
         return CardResponse.of(card);
