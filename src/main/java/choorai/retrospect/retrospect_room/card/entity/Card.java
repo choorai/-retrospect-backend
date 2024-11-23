@@ -67,11 +67,11 @@ public class Card extends BaseEntity {
         return this.content.getValue();
     }
 
-    public boolean isInRoom(Long retrospectRoomId) {
+    public boolean isInRoom(final Long retrospectRoomId) {
         return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
     }
 
-    public void update(String typeValue, String content) {
+    public void update(final String typeValue, final String content) {
         if (typeValue != null) {
             this.type = Type.fromString(typeValue);
         }
@@ -79,6 +79,4 @@ public class Card extends BaseEntity {
             this.content = new Content(content);
         }
     }
-
-
 }

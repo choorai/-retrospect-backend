@@ -8,7 +8,7 @@ public class CardUpdateRequest {
     private String type;
     private String content;
 
-    public CardUpdateRequest(String type, String content) {
+    public CardUpdateRequest(final String type, final String content) {
         this.type = type;
         this.content = content;
     }

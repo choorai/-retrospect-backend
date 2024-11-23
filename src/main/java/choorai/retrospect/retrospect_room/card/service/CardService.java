@@ -35,7 +35,7 @@ public class CardService {
 
     @Transactional
     public CardResponse updateCard(final Long retrospectRoomId, final Long cardId, final CardUpdateRequest request) {
-        Card card = getCardById(cardId);
+        final Card card = getCardById(cardId);
         validateCardInRoom(retrospectRoomId, card);
         card.update(request.getType(), request.getContent());
         return CardResponse.of(card);
