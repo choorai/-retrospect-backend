@@ -36,8 +36,7 @@ public class CardService {
     @Transactional
     public CardResponse updateCard(final Long retrospectRoomId, final Long cardId, final CardUpdateRequest request) {
         final Card card = getCardById(cardId);
-        validateCardInRoom(retrospectRoomId, card);
-        card.update(request.getType(), request.getContent());
+        card.update(retrospectRoomId, request.getType(), request.getContent());
         return CardResponse.of(card);
     }
 
@@ -46,10 +45,5 @@ public class CardService {
             .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND_FOR_ID));
     }
 
-    private void validateCardInRoom(final Long retrospectRoomId, final Card card) {
-        if (!card.isInRoom(retrospectRoomId)) {
-            throw new CardException(CardErrorCode.CARD_IS_NOT_IN_ROOM);
-        }
-    }
 
 }

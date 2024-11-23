@@ -3,6 +3,8 @@ package choorai.retrospect.retrospect_room.card.entity;
 import choorai.retrospect.global.domain.BaseEntity;
 import choorai.retrospect.retrospect_room.card.entity.value.Content;
 import choorai.retrospect.retrospect_room.card.entity.value.Type;
+import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
+import choorai.retrospect.retrospect_room.card.exception.CardException;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.user.entity.User;
 import jakarta.persistence.Embedded;
@@ -67,16 +69,19 @@ public class Card extends BaseEntity {
         return this.content.getValue();
     }
 
-    public boolean isInRoom(final Long retrospectRoomId) {
-        return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
-    }
-
-    public void update(final String typeValue, final String content) {
+    public void update(final Long retrospectRoomId, final String typeValue, final String content) {
+        validateCardInRoom(retrospectRoomId);
         if (typeValue != null) {
             this.type = Type.fromString(typeValue);
         }
         if (content != null) {
             this.content = new Content(content);
+        }
+    }
+
+    private void validateCardInRoom(final Long retrospectRoomId) {
+        if (!Objects.equals(retrospectRoom.getId(), retrospectRoomId)) {
+            throw new CardException(CardErrorCode.CARD_IS_NOT_IN_ROOM);
         }
     }
 }
