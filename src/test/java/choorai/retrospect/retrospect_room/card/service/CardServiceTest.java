@@ -73,8 +73,6 @@ class CardServiceTest {
 
     @BeforeEach
     void setUp() {
-        cardRepository.deleteAll();
-
         retrospectRoom = retrospectRoomRepository.save(
             RetrospectRoom.forSave("주제", "회고 상세 내용", "KPT", "01:00:00", "shareLink"));
         User user = userRepository.save(new User("test@test.com", "testsssss", "test"));
