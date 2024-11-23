@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import choorai.retrospect.retrospect_room.card.entity.Card;
 import choorai.retrospect.retrospect_room.card.entity.repository.CardRepository;
@@ -18,6 +19,7 @@ import choorai.retrospect.support.MockUser;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.service.UserService;
+import jakarta.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,14 +48,14 @@ class CardServiceTest {
     private RetrospectRoomRepository retrospectRoomRepository;
 
     private RetrospectRoom retrospectRoom;
+    private User currentUser;
     private Card card1;
     private Card card2;
     private Card card3;
 
     @BeforeEach
     void set() {
-        User currentUser = userService.getCurrentUser();
-        currentUser = userRepository.save(currentUser);
+        currentUser = userRepository.save(userService.getCurrentUser());
 
         retrospectRoom = retrospectRoomRepository.save(
             RetrospectRoom.forSave("주제", "회고 상세 내용", "KPT", "01:00:00", "shareLink"));
@@ -171,6 +173,61 @@ class CardServiceTest {
                     .map(CardResponse::of)
                     .collect(Collectors.toList())
             );
+    }
+
+    @Transactional
+    @Test
+    void testDeleteCard_Success() {
+        // given
+        // when
+        cardService.deleteCard(retrospectRoom.getId(), card1.getId());
+        final List<Card> userCards = userRepository.findById(currentUser.getId()).get().getCards();
+        final List<Card> retrospectRoomCards = retrospectRoomRepository.findById(retrospectRoom.getId()).get()
+            .getCards();
+
+
+        // then
+        assertAll(
+            () -> assertFalse(cardRepository.findById(card1.getId()).isPresent()),
+            () -> assertFalse(userCards.contains(card1)),
+            () -> assertFalse(retrospectRoomCards.contains(card1))
+        );
+    }
+
+    @Test
+    void testDeleteCard_CardNotInRoom() {
+        // given
+        final Long wrongRetrospectRoomId = 999L;
+
+        // when
+        // then
+        assertThatThrownBy(() -> cardService.deleteCard(wrongRetrospectRoomId, card1.getId()))
+            .isInstanceOf(CardException.class)
+            .hasMessageContaining(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
+    }
+
+    @Test
+    void testDeleteCard_CardNotFound() {
+        // given
+        final Long wrongCardId = 999L;
+
+        // when
+        // then
+        assertThatThrownBy(() -> cardService.deleteCard(retrospectRoom.getId(), wrongCardId))
+            .isInstanceOf(CardException.class)
+            .hasMessageContaining(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
+    }
+
+    @Test
+    void testDeleteCard_AuthorError() {
+        // given
+        final User anotherUser = userRepository.save(new User("ttt@ttt.com", "pppppp","테스터2"));
+        card1 = cardRepository.save(Card.forSave("KEEP", "Keep 내용", retrospectRoom, anotherUser));
+        // when
+        // then
+        assertThatThrownBy(() -> cardService.deleteCard(retrospectRoom.getId(), card1.getId()))
+            .isInstanceOf(CardException.class)
+            .hasMessageContaining(CardErrorCode.CARD_NOT_AUTHORED_BY_USER.getMessage());
     }
 
 }

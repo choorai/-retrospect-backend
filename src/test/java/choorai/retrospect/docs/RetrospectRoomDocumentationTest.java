@@ -4,10 +4,12 @@ import static choorai.retrospect.support.ApiDocumentUtils.getDocumentRequest;
 import static choorai.retrospect.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -252,6 +254,39 @@ public class RetrospectRoomDocumentationTest {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("수정된 카드의 ID"),
                                 fieldWithPath("data.type").type(JsonFieldType.STRING).description("수정된 카드의 타입"),
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("수정된 카드의 내용")
+                            )
+            ));
+    }
+
+    @Test
+    @DisplayName("deleteCard api 문서 테스트")
+    void deleteCardDocsTest() throws Exception {
+        // given
+        Long cardId = 1L;
+        Long retrospectRoomId = 1L;
+        doNothing().when(cardService).deleteCard(any(Long.class), any(Long.class));
+
+        // when
+        ResultActions result = mockMvc.perform(
+            delete("/retrospect-room/{retrospectRoomId}/cards/{cardId}", retrospectRoomId, cardId)
+                .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-delete",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("삭제할 카드가 속한 retrospect room의 id"),
+                                parameterWithName("cardId").description("삭제할 카드의 ID")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data").optional().description("null 값 전달")
                             )
             ));
     }
