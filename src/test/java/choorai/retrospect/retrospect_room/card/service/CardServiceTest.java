@@ -2,6 +2,7 @@ package choorai.retrospect.retrospect_room.card.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import choorai.retrospect.retrospect_room.card.entity.Card;
@@ -17,6 +18,9 @@ import choorai.retrospect.support.MockUser;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.service.UserService;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +34,21 @@ class CardServiceTest {
     private CardService cardService;
 
     @Autowired
-    private CardRepository cardRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    RetrospectRoomRepository retrospectRoomRepository;
+    private CardRepository cardRepository;
+
+    @Autowired
+    private RetrospectRoomRepository retrospectRoomRepository;
 
     private RetrospectRoom retrospectRoom;
-    private Card card;
+    private Card card1;
+    private Card card2;
+    private Card card3;
 
     @BeforeEach
     void set() {
@@ -51,7 +57,10 @@ class CardServiceTest {
 
         retrospectRoom = retrospectRoomRepository.save(
             RetrospectRoom.forSave("주제", "회고 상세 내용", "KPT", "01:00:00", "shareLink"));
-        card = cardRepository.save(Card.forSave("KEEP", "Keep 내용", retrospectRoom, currentUser));
+        card1 = cardRepository.save(Card.forSave("KEEP", "Keep 내용", retrospectRoom, currentUser));
+        card2 = cardRepository.save(Card.forSave("TRY", "Try 내용", retrospectRoom, currentUser));
+        card3 = cardRepository.save(Card.forSave("PROBLEM", "Problem 내용", retrospectRoom, currentUser));
+
     }
 
     @Test
@@ -74,7 +83,7 @@ class CardServiceTest {
     @Test
     void updateCard_success() {
         // given
-        final Long cardId = card.getId();
+        final Long cardId = card1.getId();
         final Long roomId = retrospectRoom.getId();
         final CardUpdateRequest updateRequest = new CardUpdateRequest("TRY", "Updated Content");
 
@@ -93,7 +102,7 @@ class CardServiceTest {
     void updateCard_fail_invalidRoomId() {
         // given
         final Long wrongRoomId = 999L;
-        final Long cardId = card.getId();
+        final Long cardId = card1.getId();
         final CardUpdateRequest updateRequest = new CardUpdateRequest("TRY", "Updated Content");
 
         // when & then
@@ -113,6 +122,55 @@ class CardServiceTest {
         assertThatThrownBy(() -> cardService.updateCard(retrospectRoomId, nonexistentCardId, updateRequest))
             .isInstanceOf(CardException.class)
             .hasMessage(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
+    }
+
+
+    @Test
+    void getCardResponseById_ValidCard_Success() {
+        // given
+        final Long card1Id = card1.getId();
+        final Long retrospectRoomId = retrospectRoom.getId();
+
+        // when
+        final CardResponse response = cardService.getCardResponseById(retrospectRoomId, card1Id);
+
+        // then
+        assertAll(
+            () -> assertThat(response.getType()).isEqualTo(card1.getType().toString()),
+            () -> assertThat(response.getContent()).isEqualTo(card1.getContent())
+        );
+    }
+
+    @Test
+    void getCardResponseById_InvalidRoom_ThrowsException() {
+        // given
+        final Long card1Id = card1.getId();
+        final Long wrongRetrospectRoomId = 999L;
+
+        // when
+        // then
+        assertThatThrownBy(() -> cardService.getCardResponseById(wrongRetrospectRoomId, card1Id))
+            .isInstanceOf(CardException.class)
+            .hasMessageContaining(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
+    }
+
+    @Test
+    void getAllCards_ValidRoom_Success() {
+        // given
+        List<Card> expectedCards = Arrays.asList(card1, card2, card3);
+        final Long retrospectRoomId = retrospectRoom.getId();
+
+        // when
+        List<CardResponse> cards = cardService.getAllCards(retrospectRoomId);
+
+        // then
+        assertThat(cards)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .isEqualTo(
+                expectedCards.stream()
+                    .map(CardResponse::of)
+                    .collect(Collectors.toList())
+            );
     }
 
 }

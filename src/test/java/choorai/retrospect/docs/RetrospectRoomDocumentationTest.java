@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -26,6 +27,7 @@ import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
 import choorai.retrospect.support.MockUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +100,78 @@ public class RetrospectRoomDocumentationTest {
             ));
     }
 
-    @DisplayName("Card 생성 테스트")
+    @DisplayName("Card 조회 api 문서 테스트")
+    @Test
+    void readTest() throws Exception {
+        // given
+        final Long retrospectRoomId = 1L;
+        final Long cardId = 1L;
+        final CardResponse cardResponse = new CardResponse(1L, "KEEP", "KEEP회고");
+        given(cardService.getCardResponseById(any(Long.class), any(Long.class)))
+            .willReturn(cardResponse);
+        // when
+        final ResultActions result = this.mockMvc.perform(
+            get("/retrospect-room/{retrospectRoomId}/cards/{cardId}", retrospectRoomId, cardId)
+                .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                .contentType(MediaType.APPLICATION_JSON));
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-get-by-id",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("조회할 카드가 속한 retrospect room의 id"),
+                                parameterWithName("cardId").description("조회할 카드의 ID")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("조회한 Card id"),
+                                fieldWithPath("data.type").type(JsonFieldType.STRING).description("조회한 Card의 타입"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("조회한 Card의 내용")
+                            )
+            ));
+    }
+
+    @DisplayName("Card 전체 조회 api 문서 테스트")
+    @Test
+    void readAllTest() throws Exception {
+        // given
+        final Long retrospectRoomId = 1L;
+        final CardResponse cardResponse1 = new CardResponse(1L, "KEEP", "K회고");
+        final CardResponse cardResponse2 = new CardResponse(2L, "KEEP", "K회고2");
+        final List<CardResponse> cards = List.of(cardResponse1, cardResponse2);
+
+        when(cardService.getAllCards(any(Long.class)))
+            .thenReturn(cards);
+        // when
+        ResultActions result = mockMvc.perform(get("/retrospect-room/{retrospectRoomId}/cards", retrospectRoomId)
+                                                   .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                                                   .accept(MediaType.APPLICATION_JSON));
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-get-all",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("조회할 카드가 속한 retrospect room의 id")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("카드 목록"),
+                                fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("카드의 ID"),
+                                fieldWithPath("data[].type").type(JsonFieldType.STRING).description("카드의 타입"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING).description("카드의 내용")
+                            )
+            ));
+    }
+
+    @DisplayName("Card 생성 api 문서 테스트")
     @MockUser
     @Test
     void createTest() throws Exception {
@@ -139,7 +212,7 @@ public class RetrospectRoomDocumentationTest {
     }
 
     @Test
-    @DisplayName("updateCard 문서화 테스트")
+    @DisplayName("Card update api 문서 테스트")
     void updateCardDocsTest() throws Exception {
         // given
         final Long cardId = 1L;
