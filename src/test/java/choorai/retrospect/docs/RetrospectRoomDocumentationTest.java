@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -21,25 +22,6 @@ import choorai.retrospect.retrospect_room.card.service.CardService;
 import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
 import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
 import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
-import static choorai.retrospect.support.ApiDocumentUtils.getDocumentRequest;
-import static choorai.retrospect.support.ApiDocumentUtils.getDocumentResponse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import choorai.retrospect.retrospect_room.card.service.CardService;
-import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
@@ -60,17 +42,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import static choorai.retrospect.support.ApiDocumentUtils.getDocumentRequest;
-import static choorai.retrospect.support.ApiDocumentUtils.getDocumentResponse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -129,7 +100,7 @@ public class RetrospectRoomDocumentationTest {
             ));
     }
 
-    @DisplayName("Card 조회 테스트")
+    @DisplayName("Card 조회 api 문서 테스트")
     @Test
     void readTest() throws Exception {
         // given
@@ -164,7 +135,7 @@ public class RetrospectRoomDocumentationTest {
             ));
     }
 
-    @DisplayName("Card 전체 조회 테스트")
+    @DisplayName("Card 전체 조회 api 문서 테스트")
     @Test
     void readAllTest() throws Exception {
         // given
@@ -200,7 +171,7 @@ public class RetrospectRoomDocumentationTest {
             ));
     }
 
-    @DisplayName("Card 생성 테스트")
+    @DisplayName("Card 생성 api 문서 테스트")
     @MockUser
     @Test
     void createTest() throws Exception {
@@ -241,7 +212,7 @@ public class RetrospectRoomDocumentationTest {
     }
 
     @Test
-    @DisplayName("updateCard 문서화 테스트")
+    @DisplayName("Card update api 문서 테스트")
     void updateCardDocsTest() throws Exception {
         // given
         final Long cardId = 1L;
