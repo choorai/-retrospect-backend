@@ -218,4 +218,16 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
     }
 
+    @Test
+    void testDeleteCard_AuthorError() {
+        // given
+        final User anotherUser = userRepository.save(new User("ttt@ttt.com", "pppppp","테스터2"));
+        card1 = cardRepository.save(Card.forSave("KEEP", "Keep 내용", retrospectRoom, anotherUser));
+        // when
+        // then
+        assertThatThrownBy(() -> cardService.deleteCard(retrospectRoom.getId(), card1.getId()))
+            .isInstanceOf(CardException.class)
+            .hasMessageContaining(CardErrorCode.CARD_NOT_AUTHORED_BY_USER.getMessage());
+    }
+
 }

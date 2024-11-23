@@ -75,7 +75,7 @@ public class CardService {
         final Card card = getCardById(cardId);
         validateCardInRoom(retrospectRoomId, card);
 
-        final User user = card.getUser();
+        final User user = getCardAuthor(card);
         user.removeCardById(card.getId());
         final RetrospectRoom retrospectRoom = card.getRetrospectRoom();
         retrospectRoom.removeCardById(card.getId());
@@ -83,5 +83,14 @@ public class CardService {
         cardRepository.delete(card);
     }
 
+    private User getCardAuthor(final Card card) {
+        final User author = card.getUser();
+        final Long authorId = author.getId();
+        final Long currentUserId = userService.getCurrentUser().getId();
+        if (!authorId.equals(currentUserId)) {
+            throw new CardException(CardErrorCode.CARD_NOT_AUTHORED_BY_USER);
+        }
+        return author;
+    }
 
 }
