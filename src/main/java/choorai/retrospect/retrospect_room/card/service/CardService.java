@@ -3,8 +3,11 @@ package choorai.retrospect.retrospect_room.card.service;
 
 import choorai.retrospect.retrospect_room.card.entity.Card;
 import choorai.retrospect.retrospect_room.card.entity.repository.CardRepository;
+import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
+import choorai.retrospect.retrospect_room.card.exception.CardException;
 import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
 import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
+import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.user.entity.User;
