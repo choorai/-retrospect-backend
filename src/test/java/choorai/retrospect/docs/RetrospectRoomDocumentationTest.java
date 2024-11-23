@@ -1,8 +1,12 @@
 package choorai.retrospect.docs;
 
+import choorai.retrospect.retrospect_room.card.service.CardService;
+import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
+import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
+import choorai.retrospect.support.MockUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +31,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +46,9 @@ public class RetrospectRoomDocumentationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private CardService cardService;
 
     @MockBean
     private RetrospectRoomService retrospectRoomService;
@@ -80,6 +90,46 @@ public class RetrospectRoomDocumentationTest {
                     fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
                     fieldWithPath("data.shareLink").type(JsonFieldType.STRING).description("회고 공유 링크")
                 )
+            ));
+    }
+
+    @DisplayName("Card 생성 테스트")
+    @MockUser
+    @Test
+    void createTest() throws Exception {
+        // given
+        final Long retrospectRoomId = 1L;
+        final CardCreateRequest cardRequest = new CardCreateRequest("KEEP", "KEEP회고");
+        final CardResponse cardResponse = new CardResponse(1L, "KEEP", "KEEP회고");
+        given(cardService.createCard(any(Long.class), any(CardCreateRequest.class)))
+            .willReturn(cardResponse);
+        // when
+        final ResultActions result = this.mockMvc.perform(
+            RestDocumentationRequestBuilders.post("/retrospect-room/{retrospectRoomId}/createCard", retrospectRoomId)
+                .header(HttpHeaders.AUTHORIZATION, "유저 토큰")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cardRequest)));
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("card-create",
+                            getDocumentRequest(),
+                            getDocumentResponse(),
+                            requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 유저 토큰 정보")
+                            ),
+                            pathParameters(
+                                parameterWithName("retrospectRoomId").description("만들어질 카드가 속한 retrospectRoom의 id")
+                            ),
+                            requestFields(
+                                fieldWithPath("type").type(JsonFieldType.STRING).description("타입(KEEP, PROBLEM, TRY)"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
+                            ),
+                            responseFields(
+                                fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("생성된 Card id"),
+                                fieldWithPath("data.type").type(JsonFieldType.STRING).description("생성된 Card의 타입"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("생성된 Card의 내용")
+                            )
             ));
     }
 }

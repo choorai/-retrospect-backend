@@ -49,6 +49,8 @@ public class Card extends BaseEntity {
         this.content = content;
         this.retrospectRoom = retrospectRoom;
         this.user = user;
+        retrospectRoom.addCard(this);
+        user.addCard(this);
     }
 
     public static Card forSave(final String type, final String content, final RetrospectRoom retrospectRoom,
@@ -58,6 +60,10 @@ public class Card extends BaseEntity {
                         new Content(content),
                         retrospectRoom,
                         user);
+    }
+
+    public String getContent() {
+        return this.content.getValue();
     }
 
 }

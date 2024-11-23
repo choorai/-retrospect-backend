@@ -14,7 +14,8 @@ public enum UserErrorCode implements ErrorCode {
     PASSWORD_LENGTH_ERROR(HttpStatus.BAD_REQUEST, 1003,
                       String.format("비밀번호는 %d ~ %d자 사이여야 합니다.", Password.MIN_LENGTH, Password.MAX_LENGTH)),
     NAME_LENGTH_ERROR(HttpStatus.BAD_REQUEST, 1004,
-                      String.format("이름은 %d ~ %d자 사이여야 합니다.", Name.MIN_LENGTH, Name.MAX_LENGTH));
+                      String.format("이름은 %d ~ %d자 사이여야 합니다.", Name.MIN_LENGTH, Name.MAX_LENGTH)),
+    USER_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 1005, "동일한 id를 가진 User를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final int errorCode;
