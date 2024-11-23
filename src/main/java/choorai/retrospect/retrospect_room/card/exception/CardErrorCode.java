@@ -10,7 +10,8 @@ public enum CardErrorCode implements ErrorCode {
     INVALID_TYPE(HttpStatus.BAD_REQUEST, 4003, "type은 KEEP, PROBLEM, TRY 중 하나여야 합니다."),
     RETROSPECT_ROOM_IS_NOT_NULL(HttpStatus.BAD_REQUEST, 4004, "retrospectRoom은 필수값입니다."),
     USER_IS_NOT_NULL(HttpStatus.BAD_REQUEST, 4005, "user은 필수값입니다."),
-    CARD_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 4006, "동일한 id를 가진 card를 찾을 수 없습니다.");
+    CARD_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 4006, "동일한 id를 가진 card를 찾을 수 없습니다."),
+    CARD_IS_NOT_IN_ROOM(HttpStatus.BAD_REQUEST, 4007, "주어진 id의 카드는 해당 회고룸에 존재하지 않습니다.");;
 
 
     private final HttpStatus httpStatus;

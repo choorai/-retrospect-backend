@@ -4,10 +4,12 @@ import choorai.retrospect.global.response.BaseResponseDto;
 import choorai.retrospect.retrospect_room.card.service.CardService;
 import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
 import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
+import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,14 @@ public class RetrospectRoomController {
     public BaseResponseDto<CreateResponse> createRoom(@RequestBody CreateRequest request) {
         final CreateResponse response = retrospectRoomService.create(request);
         return BaseResponseDto.ofSuccess(response);
+    }
+
+    @PatchMapping("/{retrospectRoomId}/cards/{cardId}")
+    public BaseResponseDto<CardResponse> updateCard(@PathVariable final Long retrospectRoomId,
+                                                    @PathVariable final Long cardId,
+                                                    @RequestBody final CardUpdateRequest request) {
+        final CardResponse updatedCard = cardService.updateCard(retrospectRoomId, cardId, request);
+        return BaseResponseDto.ofSuccess(updatedCard);
     }
 
     @PostMapping("/{retrospectRoomId}/createCard")
