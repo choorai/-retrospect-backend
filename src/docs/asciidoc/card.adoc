@@ -1,0 +1,52 @@
+= Card Api 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+
+== 카드 생성하기
+
+=== Request
+include::{snippets}/card-create/request-fields.adoc[]
+include::{snippets}/card-create/http-request.adoc[]
+
+=== Response
+include::{snippets}/card-create/response-fields.adoc[]
+include::{snippets}/card-create/http-response.adoc[]
+
+== 단일 카드 조회하기
+
+=== Request
+include::{snippets}/card-get-by-id/http-request.adoc[]
+
+=== Response
+include::{snippets}/card-get-by-id/response-fields.adoc[]
+include::{snippets}/card-get-by-id/http-response.adoc[]
+
+== 모든 카드 조회하기
+=== Request
+include::{snippets}/card-get-all/http-request.adoc[]
+
+=== Response
+include::{snippets}/card-get-all/response-fields.adoc[]
+include::{snippets}/card-get-all/http-response.adoc[]
+
+== 카드 수정하기
+
+=== Request
+include::{snippets}/card-update/request-fields.adoc[]
+include::{snippets}/card-update/http-request.adoc[]
+
+=== Response
+include::{snippets}/card-update/response-fields.adoc[]
+include::{snippets}/card-update/http-response.adoc[]
+
+== 카드 삭제하기
+
+=== Request
+include::{snippets}/card-delete/http-request.adoc[]
+
+=== Response
+include::{snippets}/card-delete/response-fields.adoc[]
+include::{snippets}/card-delete/http-response.adoc[]
