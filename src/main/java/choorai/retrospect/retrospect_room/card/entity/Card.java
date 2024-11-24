@@ -84,7 +84,7 @@ public class Card extends BaseEntity {
             throw new CardException(CardErrorCode.CARD_IS_NOT_IN_ROOM);
         }
     }
-    public boolean isInRoom(Long retrospectRoomId) {
+    public boolean isInRoom(final Long retrospectRoomId) {
         return Objects.equals(retrospectRoom.getId(), retrospectRoomId);
     }
 }

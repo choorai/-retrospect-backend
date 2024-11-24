@@ -27,7 +27,7 @@ public class AuthService {
 
 
     @Transactional
-    public LoginResponse login(LoginRequest request) {
+    public LoginResponse login(final LoginRequest request) {
         final User findUser = getUser(request);
         if (!findUser.getPassword().equals(request.getPassword())) {
             throw new AuthException(AuthErrorCode.WRONG_PASSWORD);
@@ -39,7 +39,7 @@ public class AuthService {
     }
 
     @Transactional
-    public ReissueTokenResponse reissueAccessToken(String refreshTokenValue) {
+    public ReissueTokenResponse reissueAccessToken(final String refreshTokenValue) {
         if (!jwtService.validateToken(refreshTokenValue)) {
             throw new AuthException(AuthErrorCode.INVALID_REFRESH_TOKEN);
         }
@@ -56,17 +56,17 @@ public class AuthService {
     }
 
     @Transactional
-    public void logout(String refreshTokenValue) {
+    public void logout(final String refreshTokenValue) {
         refreshTokenRepository.deleteByToken(refreshTokenValue);
     }
 
-    private void saveRefreshToken(String refreshTokenValue, User user) {
+    private void saveRefreshToken(final String refreshTokenValue, User user) {
         Date expiryDate = jwtService.extractExpiration(refreshTokenValue);
         RefreshToken refreshToken = new RefreshToken(refreshTokenValue, user, expiryDate);
         refreshTokenRepository.save(refreshToken);
     }
 
-    private User getUser(LoginRequest request) {
+    private User getUser(final LoginRequest request) {
         final Email inputEmail = new Email(request.getEmail());
         return userRepository.findByEmail(inputEmail)
             .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));

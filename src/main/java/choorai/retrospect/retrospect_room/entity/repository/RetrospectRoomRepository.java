@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface RetrospectRoomRepository extends JpaRepository<RetrospectRoom, Long> {
 
     @EntityGraph(attributePaths = {"cards"})
-    Optional<RetrospectRoom> findWithCardsById(Long userId);
+    Optional<RetrospectRoom> findWithCardsById(final Long userId);
 }

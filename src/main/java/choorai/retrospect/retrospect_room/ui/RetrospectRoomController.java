@@ -28,7 +28,7 @@ public class RetrospectRoomController {
     private final CardService cardService;
 
     @PostMapping()
-    public BaseResponseDto<CreateResponse> createRoom(@RequestBody CreateRequest request) {
+    public BaseResponseDto<CreateResponse> createRoom(@RequestBody final CreateRequest request) {
         final CreateResponse response = retrospectRoomService.create(request);
         return BaseResponseDto.ofSuccess(response);
     }

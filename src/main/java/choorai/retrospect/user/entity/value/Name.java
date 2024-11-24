@@ -21,16 +21,16 @@ public class Name {
     @Column(name = "name")
     private String value;
 
-    public Name(String value) {
+    public Name(final String value) {
         validate(value);
         this.value = value;
     }
 
-    private void validate(String inputValue) {
+    private void validate(final String inputValue) {
         validateByteLength(inputValue);
     }
 
-    private void validateByteLength(String inputValue) {
+    private void validateByteLength(final String inputValue) {
         if (inputValue.isEmpty() || inputValue.length()> MAX_LENGTH) {
             throw new UserException(UserErrorCode.NAME_LENGTH_ERROR);
         }

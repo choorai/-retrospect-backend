@@ -51,7 +51,7 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Card> cards = new ArrayList<>();
 
-    public User(String email, String password, String name, String companyName, String department, String position, Role role) {
+    public User(final String email, final String password, final String name, final String companyName, final String department, final String position, final Role role) {
         this.email = new Email(email);
         this.password = new Password(password);
         this.name = new Name(name);
@@ -61,7 +61,7 @@ public class User extends BaseEntity implements UserDetails {
         this.role = role;
     }
 
-    public User(String email, String password, String name) {
+    public User(final String email, final String password, final String name) {
         this.email = new Email(email);
         this.password = new Password(password);
         this.name = new Name(name);

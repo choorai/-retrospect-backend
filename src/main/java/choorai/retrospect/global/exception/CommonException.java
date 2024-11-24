@@ -21,7 +21,7 @@ public class CommonException extends RuntimeException {
         this.additionalInfo = null;
     }
 
-    public CommonException(final ErrorCode errorCode, Map<String, Object> additionalInfo) {
+    public CommonException(final ErrorCode errorCode, final Map<String, Object> additionalInfo) {
         this.errorCode = errorCode;
         this.additionalInfo = additionalInfo;
     }

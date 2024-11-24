@@ -6,12 +6,12 @@ import java.util.Map;
 
 public class AuthException extends CommonException {
 
-    public AuthException(ErrorCode errorCode) {
+    public AuthException(final ErrorCode errorCode) {
         super(errorCode);
     }
 
-    public AuthException(ErrorCode errorCode,
-                         Map<String, Object> additionalInfo) {
+    public AuthException(final ErrorCode errorCode,
+                         final Map<String, Object> additionalInfo) {
         super(errorCode, additionalInfo);
     }
 }

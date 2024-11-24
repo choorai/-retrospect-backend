@@ -6,12 +6,12 @@ import java.util.Map;
 
 public class UserException extends CommonException {
 
-    public UserException(ErrorCode errorCode) {
+    public UserException(final ErrorCode errorCode) {
         super(errorCode);
     }
 
-    public UserException(ErrorCode errorCode,
-                         Map<String, Object> additionalInfo) {
+    public UserException(final ErrorCode errorCode,
+                         final Map<String, Object> additionalInfo) {
         super(errorCode, additionalInfo);
     }
 }

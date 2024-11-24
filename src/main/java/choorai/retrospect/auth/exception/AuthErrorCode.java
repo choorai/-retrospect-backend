@@ -15,7 +15,7 @@ public enum AuthErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    AuthErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    AuthErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

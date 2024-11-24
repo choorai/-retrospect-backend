@@ -19,7 +19,7 @@ public class RetrospectRoomService {
     private final ShareLinkCreateStrategy shareLinkCreateStrategy;
 
     @Transactional
-    public CreateResponse create(CreateRequest request) {
+    public CreateResponse create(final CreateRequest request) {
         final String shareLink = shareLinkCreateStrategy.createShareLink();
         final RetrospectRoom retrospectRoom = RetrospectRoom.forSave(request.getSubject(), request.getDetails(), request.getRetrospectType(), request.getTimeLimit(), shareLink);
         retrospectRoomRepository.save(retrospectRoom);
@@ -27,7 +27,7 @@ public class RetrospectRoomService {
         return new CreateResponse(shareLink);
     }
 
-    public RetrospectRoom findById(long id) {
+    public RetrospectRoom findById(final long id) {
         return retrospectRoomRepository.findWithCardsById(id)
             .orElseThrow(() -> new RetrospectRoomException(RetrospectRoomErrorCode.RETROSPECT_ROOM_NOT_FOUND_FOR_ID));
     }

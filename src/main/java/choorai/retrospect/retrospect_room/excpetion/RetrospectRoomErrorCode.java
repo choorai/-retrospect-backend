@@ -15,7 +15,7 @@ public enum RetrospectRoomErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    RetrospectRoomErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    RetrospectRoomErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

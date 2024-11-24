@@ -3,6 +3,7 @@ package choorai.retrospect.user.entity.value;
 import choorai.retrospect.user.exception.UserErrorCode;
 import choorai.retrospect.user.exception.UserException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -21,12 +22,12 @@ public class Password {
     @Column(name = "password")
     private String value;
 
-    public Password(String value) {
+    public Password(final String value) {
         validate(value);
         this.value = value;
     }
 
-    private void validate(String inputValue) {
+    private void validate(final String inputValue) {
         validateByteLength(inputValue);
     }
 
@@ -36,8 +37,16 @@ public class Password {
         }
     }
 
-    public boolean isEqual(String value) {
-        return this.value.equals(value);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Password password = (Password) o;
+        return Objects.equals(value, password.value);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
+    }
 }

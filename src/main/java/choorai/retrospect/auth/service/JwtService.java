@@ -20,20 +20,20 @@ public class JwtService {
 
     private final Key secretKey;
 
-    public JwtService(@Value("${jwt.secret.key}") String secret) {
+    public JwtService(@Value("${jwt.secret.key}") final String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(String userEmail) {
+    public String generateAccessToken(final String userEmail) {
         return generateToken(userEmail, ACCESS_TOKEN_VALIDITY);
     }
 
-    public String generateRefreshToken(String userEmail) {
+    public String generateRefreshToken(final String userEmail) {
         return generateToken(userEmail, REFRESH_TOKEN_VALIDITY);
     }
 
-    private String generateToken(String userEmail, long validity) {
-        Date now = new Date();
+    private String generateToken(final String userEmail, final long validity) {
+        final Date now = new Date();
         return Jwts.builder()
             .signWith(secretKey, SignatureAlgorithm.HS256)
             .setSubject(userEmail)
@@ -42,7 +42,7 @@ public class JwtService {
             .compact();
     }
 
-    public String extractUserEmail(String accessToken) {
+    public String extractUserEmail(final String accessToken) {
         final Claims claims = Jwts.parserBuilder()
             .setSigningKey(secretKey)
             .build()
@@ -51,30 +51,30 @@ public class JwtService {
         return claims.getSubject();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(final String token, final UserDetails userDetails) {
         final String username = extractUserEmail(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(final String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(final String token) {
         try {
-            final Claims claims = getClaims(token);
+            getClaims(token);
             return true;
         } catch (JwtException e) {
             return false;
         }
     }
 
-    public Date extractExpiration(String token) {
+    public Date extractExpiration(final String token) {
         final Claims claims = getClaims(token);
         return claims.getExpiration();
     }
 
-    private Claims getClaims(String token) {
+    private Claims getClaims(final String token) {
         return Jwts.parserBuilder()
             .setSigningKey(secretKey)
             .build()

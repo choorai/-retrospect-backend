@@ -27,19 +27,19 @@ public class CardService {
     private final RetrospectRoomService retrospectRoomService;
     private final UserService userService;
 
-    public CardResponse getCardResponseById(Long retrospectRoomId, Long id) {
+    public CardResponse getCardResponseById(final Long retrospectRoomId, final Long id) {
         final Card card = getCardById(id);
         validateCardInRoom(retrospectRoomId, card);
         return CardResponse.of(card);
     }
 
-    private void validateCardInRoom(Long retrospectRoomId, Card card) {
+    private void validateCardInRoom(final Long retrospectRoomId, final Card card) {
         if (!card.isInRoom(retrospectRoomId)) {
             throw new CardException(CardErrorCode.CARD_IS_NOT_IN_ROOM);
         }
     }
 
-    public List<CardResponse> getAllCards(Long retrospectRoomId) {
+    public List<CardResponse> getAllCards(final Long retrospectRoomId) {
         List<Card> cards = cardRepository.findByRetrospectRoom_Id(retrospectRoomId);
         return cards.stream()
             .map(CardResponse::of)

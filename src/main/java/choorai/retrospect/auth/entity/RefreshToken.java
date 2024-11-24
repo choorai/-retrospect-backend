@@ -32,7 +32,7 @@ public class RefreshToken {
     @Column(nullable = false)
     private Date expiryDate;
 
-    public RefreshToken(String token, User user, Date expiryDate) {
+    public RefreshToken(final String token, final User user, final Date expiryDate) {
         this.token = token;
         this.user = user;
         this.expiryDate = expiryDate;

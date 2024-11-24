@@ -17,11 +17,11 @@ public class BaseResponseDto<D> {
         return new BaseResponseDto<>(ResultCode.SUCCESS, null);
     }
 
-    public static <D> BaseResponseDto<D> ofSuccess(D data) {
+    public static <D> BaseResponseDto<D> ofSuccess(final D data) {
         return new BaseResponseDto<>(ResultCode.SUCCESS, data);
     }
 
-    public static <Exception> BaseResponseDto<Exception> ofException(Exception e) {
+    public static <Exception> BaseResponseDto<Exception> ofException(final Exception e) {
         return new BaseResponseDto<>(ResultCode.FAIL, e);
     }
 
