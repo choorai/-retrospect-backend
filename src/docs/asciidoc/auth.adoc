@@ -1,4 +1,4 @@
-= Retrospect-room Api 문서
+= Auth Api 문서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs

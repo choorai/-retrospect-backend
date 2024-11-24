@@ -1,0 +1,12 @@
+= Choorai API Docs
+
+== 설명
+```
+회고 서비스에 필요한 모든 API 문서입니다
+잘못된 부분이 있으면 개발자에게 문의해주세요.
+```
+
+== API Docs Link
+- link:https://choorai.github.io/retrospect-backend/auth.html[Auth Api docs]
+- link:https://choorai.github.io/retrospect-backend/retrospect-room.html[Retrospect Room Api docs]
+- link:https://choorai.github.io/retrospect-backend/card.html[Card Api docs]
