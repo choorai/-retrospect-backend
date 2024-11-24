@@ -21,6 +21,7 @@ import choorai.retrospect.auth.entity.dto.ReissueTokenResponse;
 import choorai.retrospect.auth.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ class AuthDocumentationTest {
             .build();
     }
 
+    @DisplayName("로그인 api 문서 테스트")
     @Test
     void loginTest() throws Exception {
         // given
@@ -92,6 +94,7 @@ class AuthDocumentationTest {
                             )));
     }
 
+    @DisplayName("토큰 재발급 api 문서 테스트")
     @Test
     void reissueTest() throws Exception {
         // given
@@ -121,6 +124,7 @@ class AuthDocumentationTest {
                             )));
     }
 
+    @DisplayName("로그아웃 api 문서 테스트")
     @Test
     void logoutTest() throws Exception {
         // given

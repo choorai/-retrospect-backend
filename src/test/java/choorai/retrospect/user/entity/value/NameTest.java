@@ -12,9 +12,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class NameTest {
 
-
-    @Test
     @DisplayName("이름을 입력받아서 Name 객체를 만들 수 있다.")
+    @Test
     void successCreateTest() {
         // given
         String inputValue = "정민주";

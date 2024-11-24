@@ -12,8 +12,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class PasswordTest {
 
-    @Test
     @DisplayName("비밀번호를 입력받아서 Password 객체를 만들 수 있다.")
+    @Test
     void successCreateTest() {
         // given
         String inputValue = "afjdkljfaldk1123";

@@ -9,6 +9,7 @@ import choorai.retrospect.support.MockUser;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.entity.value.Role;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +21,8 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
 
+    @DisplayName("유저 정보 조회")
     @Test
     void getCurrentUserSuccessTest() {
         // given

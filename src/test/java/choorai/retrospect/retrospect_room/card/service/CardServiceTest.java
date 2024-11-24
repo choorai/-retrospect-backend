@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,6 +66,7 @@ class CardServiceTest {
 
     }
 
+    @DisplayName("Card 생성 성공 테스트")
     @Test
     void createCard_success() {
         // given
@@ -82,6 +84,7 @@ class CardServiceTest {
         );
     }
 
+    @DisplayName("Card 수정 성공 테스트")
     @Test
     void updateCard_success() {
         // given
@@ -99,7 +102,7 @@ class CardServiceTest {
         );
     }
 
-
+    @DisplayName("retrospectRoom에 속하지 않는 card을 수정할 경우 예외가 발생한다.")
     @Test
     void updateCard_fail_invalidRoomId() {
         // given
@@ -113,6 +116,7 @@ class CardServiceTest {
             .hasMessage(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
     }
 
+    @DisplayName("존재하지 않는 card을 수정할 경우 예외가 발생한다.")
     @Test
     void updateCard_fail_cardNotFound() {
         // given
@@ -126,7 +130,7 @@ class CardServiceTest {
             .hasMessage(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
     }
 
-
+    @DisplayName("Card 조회 성공 테스트")
     @Test
     void getCardResponseById_ValidCard_Success() {
         // given
@@ -143,6 +147,7 @@ class CardServiceTest {
         );
     }
 
+    @DisplayName("잘못된 retrospectRoomId을 입력하면 예외가 발생한다.")
     @Test
     void getCardResponseById_InvalidRoom_ThrowsException() {
         // given
@@ -156,6 +161,7 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
     }
 
+    @DisplayName("retrospectRoom에 속한 모든 Card 조회 성공 테스트")
     @Test
     void getAllCards_ValidRoom_Success() {
         // given
@@ -175,6 +181,7 @@ class CardServiceTest {
             );
     }
 
+    @DisplayName("Card 삭제 성공 테스트")
     @Transactional
     @Test
     void testDeleteCard_Success() {
@@ -194,6 +201,7 @@ class CardServiceTest {
         );
     }
 
+    @DisplayName("retrospectRoom에 속하지 않은 card을 삭제할 경우 예외가 발생한다.")
     @Test
     void testDeleteCard_CardNotInRoom() {
         // given
@@ -206,6 +214,7 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
     }
 
+    @DisplayName("존재하지 않는 card을 삭제할 경우 예외가 발생한다.")
     @Test
     void testDeleteCard_CardNotFound() {
         // given
@@ -218,6 +227,7 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
     }
 
+    @DisplayName("잘못된 author의 card을 삭제할 경우 예외가 발생한다.")
     @Test
     void testDeleteCard_AuthorError() {
         // given
@@ -229,5 +239,4 @@ class CardServiceTest {
             .isInstanceOf(CardException.class)
             .hasMessageContaining(CardErrorCode.CARD_NOT_AUTHORED_BY_USER.getMessage());
     }
-
 }

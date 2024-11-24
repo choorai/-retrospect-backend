@@ -213,8 +213,8 @@ public class RetrospectRoomDocumentationTest {
             ));
     }
 
+    @DisplayName("Card 수정 api 문서 테스트")
     @Test
-    @DisplayName("Card update api 문서 테스트")
     void updateCardDocsTest() throws Exception {
         // given
         final Long cardId = 1L;
@@ -258,8 +258,8 @@ public class RetrospectRoomDocumentationTest {
             ));
     }
 
+    @DisplayName("Card 삭제 api 문서 테스트")
     @Test
-    @DisplayName("deleteCard api 문서 테스트")
     void deleteCardDocsTest() throws Exception {
         // given
         Long cardId = 1L;
