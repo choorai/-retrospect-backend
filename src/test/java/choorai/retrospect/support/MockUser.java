@@ -1,12 +1,13 @@
 package choorai.retrospect.support;
 
 import choorai.retrospect.user.entity.value.Role;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import org.springframework.security.test.context.support.WithSecurityContext;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 @Retention(RetentionPolicy.RUNTIME)
-@WithSecurityContext(factory =  MockSecurityContextFactory.class)
+@WithSecurityContext(factory = MockSecurityContextFactory.class)
 public @interface MockUser {
 
     String email() default "test@test.com";

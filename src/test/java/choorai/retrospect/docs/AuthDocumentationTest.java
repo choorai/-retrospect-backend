@@ -1,18 +1,5 @@
 package choorai.retrospect.docs;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import choorai.retrospect.auth.entity.dto.LoginRequest;
 import choorai.retrospect.auth.entity.dto.LoginResponse;
 import choorai.retrospect.auth.entity.dto.LogoutRequest;
@@ -38,6 +25,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -66,7 +66,7 @@ class AuthDocumentationTest {
     @Test
     void loginTest() throws Exception {
         // given
-        String email  = "user@naver.com";
+        String email = "user@naver.com";
         String password = "afdsa123";
         final LoginRequest loginRequest = new LoginRequest(email, password);
 
@@ -120,7 +120,8 @@ class AuthDocumentationTest {
                             ),
                             responseFields(
                                 fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 결과 코드"),
-                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("access token 값")
+                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING)
+                                    .description("access token 값")
                             )));
     }
 

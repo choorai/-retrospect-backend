@@ -21,7 +21,9 @@ public class RetrospectRoomService {
     @Transactional
     public CreateResponse create(final CreateRequest request) {
         final String shareLink = shareLinkCreateStrategy.createShareLink();
-        final RetrospectRoom retrospectRoom = RetrospectRoom.forSave(request.getSubject(), request.getDetails(), request.getRetrospectType(), request.getTimeLimit(), shareLink);
+        final RetrospectRoom retrospectRoom = RetrospectRoom.forSave(request.getSubject(), request.getDetails(),
+                                                                     request.getRetrospectType(),
+                                                                     request.getTimeLimit(), shareLink);
         retrospectRoomRepository.save(retrospectRoom);
 
         return new CreateResponse(shareLink);

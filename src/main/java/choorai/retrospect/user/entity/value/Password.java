@@ -2,14 +2,13 @@ package choorai.retrospect.user.entity.value;
 
 import choorai.retrospect.user.exception.UserErrorCode;
 import choorai.retrospect.user.exception.UserException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,15 +31,19 @@ public class Password {
     }
 
     private void validateByteLength(String inputValue) {
-        if (inputValue.length()< MIN_LENGTH || inputValue.length() > MAX_LENGTH) {
+        if (inputValue.length() < MIN_LENGTH || inputValue.length() > MAX_LENGTH) {
             throw new UserException(UserErrorCode.PASSWORD_LENGTH_ERROR);
         }
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Password password = (Password) o;
         return Objects.equals(value, password.value);
     }

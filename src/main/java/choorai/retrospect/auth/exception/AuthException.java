@@ -2,6 +2,7 @@ package choorai.retrospect.auth.exception;
 
 import choorai.retrospect.global.exception.CommonException;
 import choorai.retrospect.global.exception.ErrorCode;
+
 import java.util.Map;
 
 public class AuthException extends CommonException {

@@ -2,8 +2,6 @@ package choorai.retrospect.user.entity.value;
 
 import choorai.retrospect.user.exception.UserErrorCode;
 import choorai.retrospect.user.exception.UserException;
-import java.nio.charset.StandardCharsets;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -31,7 +29,7 @@ public class Name {
     }
 
     private void validateByteLength(final String inputValue) {
-        if (inputValue.isEmpty() || inputValue.length()> MAX_LENGTH) {
+        if (inputValue.isEmpty() || inputValue.length() > MAX_LENGTH) {
             throw new UserException(UserErrorCode.NAME_LENGTH_ERROR);
         }
     }

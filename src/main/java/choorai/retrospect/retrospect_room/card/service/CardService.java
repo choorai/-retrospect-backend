@@ -12,11 +12,12 @@ import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.service.UserService;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

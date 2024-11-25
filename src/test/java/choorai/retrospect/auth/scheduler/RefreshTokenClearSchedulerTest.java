@@ -1,15 +1,15 @@
 package choorai.retrospect.auth.scheduler;
 
-import static org.mockito.Mockito.verify;
-
 import choorai.retrospect.auth.entity.repository.RefreshTokenRepository;
-import java.util.Date;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Date;
+
+import static org.mockito.Mockito.verify;
 
 class RefreshTokenClearSchedulerTest {
 

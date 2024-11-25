@@ -1,5 +1,31 @@
 package choorai.retrospect.docs;
 
+import choorai.retrospect.retrospect_room.card.service.CardService;
+import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
+import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
+import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
+import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
+import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
+import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
+import choorai.retrospect.support.MockUser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.List;
+
 import static choorai.retrospect.support.ApiDocumentUtils.getDocumentRequest;
 import static choorai.retrospect.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,31 +45,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import choorai.retrospect.retrospect_room.card.service.CardService;
-import choorai.retrospect.retrospect_room.card.service.dto.CardCreateRequest;
-import choorai.retrospect.retrospect_room.card.service.dto.CardResponse;
-import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
-import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
-import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
-import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
-import choorai.retrospect.support.MockUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -8,8 +8,16 @@ import choorai.retrospect.user.entity.value.Email;
 import choorai.retrospect.user.entity.value.Name;
 import choorai.retrospect.user.entity.value.Password;
 import choorai.retrospect.user.entity.value.Role;
-import jakarta.persistence.*;
-import java.util.ArrayList;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +25,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,7 +60,8 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Card> cards = new ArrayList<>();
 
-    public User(final String email, final String password, final String name, final String companyName, final String department, final String position, final Role role) {
+    public User(final String email, final String password, final String name, final String companyName,
+                final String department, final String position, final Role role) {
         this.email = new Email(email);
         this.password = new Password(password);
         this.name = new Name(name);

@@ -1,11 +1,5 @@
 package choorai.retrospect.retrospect_room.card.service;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import choorai.retrospect.retrospect_room.card.entity.Card;
 import choorai.retrospect.retrospect_room.card.entity.repository.CardRepository;
 import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
@@ -20,14 +14,21 @@ import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.service.UserService;
 import jakarta.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @MockUser
@@ -231,7 +232,7 @@ class CardServiceTest {
     @Test
     void testDeleteCard_AuthorError() {
         // given
-        final User anotherUser = userRepository.save(new User("ttt@ttt.com", "pppppp","테스터2"));
+        final User anotherUser = userRepository.save(new User("ttt@ttt.com", "pppppp", "테스터2"));
         card1 = cardRepository.save(Card.forSave("KEEP", "Keep 내용", retrospectRoom, anotherUser));
         // when
         // then

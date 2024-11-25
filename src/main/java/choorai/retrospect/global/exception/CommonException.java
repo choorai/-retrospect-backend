@@ -1,9 +1,10 @@
 package choorai.retrospect.global.exception;
 
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import lombok.Getter;
 
 @Getter
 public class CommonException extends RuntimeException {
