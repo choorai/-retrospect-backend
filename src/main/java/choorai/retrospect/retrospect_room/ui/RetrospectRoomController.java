@@ -8,7 +8,6 @@ import choorai.retrospect.retrospect_room.card.service.dto.CardUpdateRequest;
 import choorai.retrospect.retrospect_room.service.RetrospectRoomService;
 import choorai.retrospect.retrospect_room.service.dto.CreateRequest;
 import choorai.retrospect.retrospect_room.service.dto.CreateResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequestMapping("/retrospect-room")
 @RequiredArgsConstructor
 @RestController
@@ -28,7 +29,7 @@ public class RetrospectRoomController {
     private final CardService cardService;
 
     @PostMapping()
-    public BaseResponseDto<CreateResponse> createRoom(@RequestBody CreateRequest request) {
+    public BaseResponseDto<CreateResponse> createRoom(@RequestBody final CreateRequest request) {
         final CreateResponse response = retrospectRoomService.create(request);
         return BaseResponseDto.ofSuccess(response);
     }

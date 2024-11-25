@@ -1,16 +1,14 @@
 package choorai.retrospect.retrospect_room.card.entity;
 
-import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.CONTENT_IS_NOT_NULL;
-import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.INVALID_TYPE;
-import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.RETROSPECT_ROOM_IS_NOT_NULL;
-import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.USER_IS_NOT_NULL;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import choorai.retrospect.retrospect_room.card.exception.CardException;
 import choorai.retrospect.retrospect_room.entity.RetrospectRoom;
 import choorai.retrospect.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.CONTENT_IS_NOT_NULL;
+import static choorai.retrospect.retrospect_room.card.exception.CardErrorCode.INVALID_TYPE;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CardTest {
 

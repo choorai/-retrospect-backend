@@ -1,11 +1,5 @@
 package choorai.retrospect.retrospect_room.card.service;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import choorai.retrospect.retrospect_room.card.entity.Card;
 import choorai.retrospect.retrospect_room.card.entity.repository.CardRepository;
 import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
@@ -20,13 +14,21 @@ import choorai.retrospect.user.entity.User;
 import choorai.retrospect.user.entity.repository.UserRepository;
 import choorai.retrospect.user.service.UserService;
 import jakarta.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @MockUser
@@ -65,6 +67,7 @@ class CardServiceTest {
 
     }
 
+    @DisplayName("Card 생성 성공 테스트")
     @Test
     void createCard_success() {
         // given
@@ -82,6 +85,7 @@ class CardServiceTest {
         );
     }
 
+    @DisplayName("Card 수정 성공 테스트")
     @Test
     void updateCard_success() {
         // given
@@ -99,7 +103,7 @@ class CardServiceTest {
         );
     }
 
-
+    @DisplayName("retrospectRoom에 속하지 않는 card을 수정할 경우 예외가 발생한다.")
     @Test
     void updateCard_fail_invalidRoomId() {
         // given
@@ -113,6 +117,7 @@ class CardServiceTest {
             .hasMessage(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
     }
 
+    @DisplayName("존재하지 않는 card을 수정할 경우 예외가 발생한다.")
     @Test
     void updateCard_fail_cardNotFound() {
         // given
@@ -126,7 +131,7 @@ class CardServiceTest {
             .hasMessage(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
     }
 
-
+    @DisplayName("Card 조회 성공 테스트")
     @Test
     void getCardResponseById_ValidCard_Success() {
         // given
@@ -143,6 +148,7 @@ class CardServiceTest {
         );
     }
 
+    @DisplayName("잘못된 retrospectRoomId을 입력하면 예외가 발생한다.")
     @Test
     void getCardResponseById_InvalidRoom_ThrowsException() {
         // given
@@ -156,6 +162,7 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
     }
 
+    @DisplayName("retrospectRoom에 속한 모든 Card 조회 성공 테스트")
     @Test
     void getAllCards_ValidRoom_Success() {
         // given
@@ -175,6 +182,7 @@ class CardServiceTest {
             );
     }
 
+    @DisplayName("Card 삭제 성공 테스트")
     @Transactional
     @Test
     void testDeleteCard_Success() {
@@ -194,6 +202,7 @@ class CardServiceTest {
         );
     }
 
+    @DisplayName("retrospectRoom에 속하지 않은 card을 삭제할 경우 예외가 발생한다.")
     @Test
     void testDeleteCard_CardNotInRoom() {
         // given
@@ -206,6 +215,7 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_IS_NOT_IN_ROOM.getMessage());
     }
 
+    @DisplayName("존재하지 않는 card을 삭제할 경우 예외가 발생한다.")
     @Test
     void testDeleteCard_CardNotFound() {
         // given
@@ -218,10 +228,11 @@ class CardServiceTest {
             .hasMessageContaining(CardErrorCode.CARD_NOT_FOUND_FOR_ID.getMessage());
     }
 
+    @DisplayName("잘못된 author의 card을 삭제할 경우 예외가 발생한다.")
     @Test
     void testDeleteCard_AuthorError() {
         // given
-        final User anotherUser = userRepository.save(new User("ttt@ttt.com", "pppppp","테스터2"));
+        final User anotherUser = userRepository.save(new User("ttt@ttt.com", "pppppp", "테스터2"));
         card1 = cardRepository.save(Card.forSave("KEEP", "Keep 내용", retrospectRoom, anotherUser));
         // when
         // then
@@ -229,5 +240,4 @@ class CardServiceTest {
             .isInstanceOf(CardException.class)
             .hasMessageContaining(CardErrorCode.CARD_NOT_AUTHORED_BY_USER.getMessage());
     }
-
 }

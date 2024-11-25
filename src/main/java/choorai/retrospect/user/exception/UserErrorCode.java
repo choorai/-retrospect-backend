@@ -12,7 +12,7 @@ public enum UserErrorCode implements ErrorCode {
     EMAIL_LENGTH_ERROR(HttpStatus.BAD_REQUEST, 1002,
                        String.format("이메일은 %d ~ %d자 사이여야합니다.", Email.MIN_LENGTH, Email.MAX_LENGTH)),
     PASSWORD_LENGTH_ERROR(HttpStatus.BAD_REQUEST, 1003,
-                      String.format("비밀번호는 %d ~ %d자 사이여야 합니다.", Password.MIN_LENGTH, Password.MAX_LENGTH)),
+                          String.format("비밀번호는 %d ~ %d자 사이여야 합니다.", Password.MIN_LENGTH, Password.MAX_LENGTH)),
     NAME_LENGTH_ERROR(HttpStatus.BAD_REQUEST, 1004,
                       String.format("이름은 %d ~ %d자 사이여야 합니다.", Name.MIN_LENGTH, Name.MAX_LENGTH)),
     USER_NOT_FOUND_FOR_ID(HttpStatus.BAD_REQUEST, 1005, "동일한 id를 가진 User를 찾을 수 없습니다.");
@@ -21,7 +21,7 @@ public enum UserErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    UserErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    UserErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

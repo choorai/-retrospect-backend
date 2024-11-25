@@ -6,11 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,29 +19,29 @@ public class Email {
     public static final int MIN_LENGTH = 4;
     public static final int MAX_LENGTH = 32;
     private static final Pattern EMAIL_PATTERN
-            = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+        = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
 
     @Column(name = "email")
     private String value;
 
-    public Email(String value) {
+    public Email(final String value) {
         validate(value);
         this.value = value;
     }
 
-    private void validate(String inputValue) {
+    private void validate(final String inputValue) {
         validateByteLength(inputValue);
         validateForm(inputValue);
     }
 
-    private void validateByteLength(String inputValue) {
+    private void validateByteLength(final String inputValue) {
         if (inputValue.length() < MIN_LENGTH || inputValue.length() > MAX_LENGTH) {
             throw new UserException(UserErrorCode.EMAIL_LENGTH_ERROR);
         }
     }
 
-    private void validateForm(String inputValue) {
+    private void validateForm(final String inputValue) {
         Matcher matcher = EMAIL_PATTERN.matcher(inputValue);
         if (!matcher.matches()) {
             throw new UserException(UserErrorCode.EMAIL_FORM_ERROR);
@@ -50,9 +49,13 @@ public class Email {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Email email = (Email) o;
         return value.equals(email.value);
     }

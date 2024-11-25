@@ -1,20 +1,21 @@
 package choorai.retrospect.auth.service;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.Date;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Date;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 class JwtServiceTest {
 
     private final JwtService jwtService = new JwtService("mytestsecretkeymytestsecretkeymytestsecretkey");
 
-    @Test
     @DisplayName("유효한 access Token을 생성할 수 있다.")
+    @Test
     void generateAccessTokenTest() {
         // given
         String email = "test@example.com";
@@ -25,8 +26,8 @@ class JwtServiceTest {
         assertEquals(email, jwtService.extractUserEmail(token));
     }
 
-    @Test
     @DisplayName("유효한 refresh Token을 생성할 수 있다.")
+    @Test
     void generateRefreshTokenTest() {
         // given
         String email = "test@example.com";
@@ -36,8 +37,8 @@ class JwtServiceTest {
         assertTrue(jwtService.validateToken(token));
     }
 
-    @Test
     @DisplayName("생성 된 토큰에서 userEmail을 추출할 수 있다.")
+    @Test
     void extractEmailTest() {
         // given
         String email = "test@example.com";
@@ -49,8 +50,8 @@ class JwtServiceTest {
             .isEqualTo(email);
     }
 
-    @Test
     @DisplayName("생성 된 토큰에서 expiration을 추출할 수 있다.")
+    @Test
     void extractExpirationTest() {
         // given
         String email = "test@example.com";
@@ -60,8 +61,8 @@ class JwtServiceTest {
         assertTrue(expiration.after(new Date()));
     }
 
-    @Test
     @DisplayName("유효하지 않은 token의 validate() 결과는 false이다.")
+    @Test
     void invalidTokenTest() {
         String malformedToken = "malformedToken";
 
@@ -71,5 +72,4 @@ class JwtServiceTest {
         // Then
         assertFalse(isValid);
     }
-
 }

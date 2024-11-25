@@ -9,9 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Getter
 @NoArgsConstructor
@@ -32,7 +33,7 @@ public class RefreshToken {
     @Column(nullable = false)
     private Date expiryDate;
 
-    public RefreshToken(String token, User user, Date expiryDate) {
+    public RefreshToken(final String token, final User user, final Date expiryDate) {
         this.token = token;
         this.user = user;
         this.expiryDate = expiryDate;

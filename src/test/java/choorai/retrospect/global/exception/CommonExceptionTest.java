@@ -1,15 +1,15 @@
 package choorai.retrospect.global.exception;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommonExceptionTest {
 
@@ -28,11 +28,11 @@ class CommonExceptionTest {
         final List<String> values = Arrays.asList(rawValue.split(", "));
         final String suffix = inputValue.substring(inputValue.length() - 1);
         assertAll(
-                  () -> assertEquals("{", prefix),
-                  () -> assertEquals("}", suffix),
-                  () -> assertEquals(2, values.size()),
-                  () -> assertTrue(values.contains("정보1 : 내용1")),
-                  () -> assertTrue(values.contains("정보2 : 내용2"))
+            () -> assertEquals("{", prefix),
+            () -> assertEquals("}", suffix),
+            () -> assertEquals(2, values.size()),
+            () -> assertTrue(values.contains("정보1 : 내용1")),
+            () -> assertTrue(values.contains("정보2 : 내용2"))
         );
     }
 

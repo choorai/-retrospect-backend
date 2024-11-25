@@ -6,7 +6,7 @@ public enum ResultCode {
 
     private final String message;
 
-    ResultCode(String message) {
+    ResultCode(final String message) {
         this.message = message;
     }
 }

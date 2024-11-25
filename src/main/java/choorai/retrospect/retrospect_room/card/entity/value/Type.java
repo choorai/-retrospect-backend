@@ -2,6 +2,7 @@ package choorai.retrospect.retrospect_room.card.entity.value;
 
 import choorai.retrospect.retrospect_room.card.exception.CardErrorCode;
 import choorai.retrospect.retrospect_room.card.exception.CardException;
+
 import java.util.Arrays;
 
 public enum Type {
@@ -17,7 +18,7 @@ public enum Type {
         if (type == null || type.isEmpty()) {
             throw new CardException(CardErrorCode.TYPE_IS_NOT_NULL);
         }
-        if(!isValidType(type)) {
+        if (!isValidType(type)) {
             throw new CardException(CardErrorCode.INVALID_TYPE);
         }
     }

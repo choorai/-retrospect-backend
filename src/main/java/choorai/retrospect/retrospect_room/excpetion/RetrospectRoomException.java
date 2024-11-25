@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class RetrospectRoomException extends CommonException {
 
-    public RetrospectRoomException(ErrorCode errorCode) {
+    public RetrospectRoomException(final ErrorCode errorCode) {
         super(errorCode);
     }
 
-    public RetrospectRoomException(ErrorCode errorCode, Map<String, Object> additionalInfo) {
+    public RetrospectRoomException(final ErrorCode errorCode, final Map<String, Object> additionalInfo) {
         super(errorCode, additionalInfo);
     }
 }

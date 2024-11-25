@@ -1,9 +1,10 @@
 package choorai.retrospect.global.exception;
 
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import lombok.Getter;
 
 @Getter
 public class CommonException extends RuntimeException {
@@ -21,7 +22,7 @@ public class CommonException extends RuntimeException {
         this.additionalInfo = null;
     }
 
-    public CommonException(final ErrorCode errorCode, Map<String, Object> additionalInfo) {
+    public CommonException(final ErrorCode errorCode, final Map<String, Object> additionalInfo) {
         this.errorCode = errorCode;
         this.additionalInfo = additionalInfo;
     }

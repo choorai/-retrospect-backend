@@ -2,6 +2,7 @@ package choorai.retrospect.retrospect_room.card.exception;
 
 import choorai.retrospect.global.exception.CommonException;
 import choorai.retrospect.global.exception.ErrorCode;
+
 import java.util.Map;
 
 public class CardException extends CommonException {
